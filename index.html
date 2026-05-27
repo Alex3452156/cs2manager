@@ -322,8 +322,7 @@ td.g{color:var(--g)}td.r{color:var(--r)}td.c{color:var(--c)}td.p{color:var(--p)}
 .empty{text-align:center;padding:28px 16px;color:var(--faint);font-size:13px}
 input[type="range"]{-webkit-appearance:none;width:100%;height:5px;background:var(--bg3);border-radius:3px;outline:none}
 input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--c);border-radius:50%;cursor:pointer;box-shadow:0 0 10px var(--cg)}
-.flash{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--bg3);border:1.5px solid var(--g);color:var(--g);padding:9px 18px;border-radius:10px;font-size:12px;font-weight:800;z-index:600;transition:transform .3s;text-transform:uppercase;letter-spacing:.05em;pointer-events:none}
-.flash.show{transform:translateX(-50%) translateY(0)}
+.flash{display:none}
 .cu{font-size:9px;color:var(--faint);font-weight:600}
 .faq-item{margin-bottom:10px}
 .faq-q{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -386,18 +385,10 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
 <!-- HEADER -->
 <header class="hdr">
   <div class="logo">
-    <svg class="logo-ic" viewBox="0 0 32 32" fill="none">
-      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--p)"/><stop offset="100%" stop-color="var(--c)"/></linearGradient></defs>
-      <rect width="32" height="32" rx="8" fill="url(#lg)" opacity=".15"/>
-      <rect width="32" height="32" rx="8" stroke="url(#lg)" stroke-width="1.5" fill="none"/>
-      <circle cx="16" cy="16" r="7" stroke="url(#lg)" stroke-width="1.5"/>
-      <circle cx="16" cy="16" r="3" fill="url(#lg)" opacity=".8"/>
-      <line x1="16" y1="6" x2="16" y2="10" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="16" y1="22" x2="16" y2="26" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="6" y1="16" x2="10" y2="16" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="22" y1="16" x2="26" y2="16" stroke="url(#lg)" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    <div><div class="logo-title">CS2 Manager</div><div class="logo-sub">Farm Tracker</div></div>
+    <img src="https://raw.githubusercontent.com/Alex3452156/cs2manager/main/logo.png"
+         class="logo-ic" style="border-radius:8px;object-fit:cover"
+         onerror="this.style.display='none'">
+    <div><div class="logo-title">CS2Manager</div></div>
   </div>
   <div class="hdr-r">
     <div class="dot"></div>
@@ -599,23 +590,23 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="card">
     <div class="card-title"><svg class="ti" width="13" height="13"><use href="#i-tag"/></svg> Кейсы CS2 (активный дроп)</div>
     <a href="https://steamcommunity.com/market/listings/730/Sealed%20Dead%20Hand%20Terminal" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGgGlW5pUoj-jA5I6kh1ewrkZlZ2-nIoCQJg45Jg/200x200')"></div>
+      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGhWlW6sDA-LnN9t2t3FBr_rciYzilJ4fHIlhsYAs6i1i5xe3skQ/200x200')"></div>
       <div class="minfo"><div class="mname">Sealed Dead Hand Terminal</div><span class="mbadge">БЕЗ КЛЮЧА</span><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Kilowatt%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGgGlSupUoj-jA54iltBjkqkZkZm-ndY-RJg45Jg/200x200')"></div>
+      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGhWlW6sDA-LnN9t2t3FBr_rciYzilJ4fHIlhsYAs6i1i5xe3skQ/200x200')"></div>
       <div class="minfo"><div class="mname">Kilowatt Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Dreams%20%26%20Nightmares%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGgGlW5pUoj-jA5I6kh1ewrkZlZ2-nIoCQJg45Jg/200x200')"></div>
+      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKBkMjh8DPSqUA3iX2d_tivBQ/200x200')"></div>
       <div class="minfo"><div class="mname">Dreams & Nightmares Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Revolution%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGgGlW5pUoj-jA5I6kh1ewrkZlZ2-nIoCQJg45Jg/200x200')"></div>
+      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKZkI_h5zPSqUA5ib3Z_t-vHg/200x200')"></div>
       <div class="minfo"><div class="mname">Revolution Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Sealed%20Genesis%20Terminal" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGgGlW5pUoj-jA5I6kh1ewrkZlZ2-nIoCQJg45Jg/200x200')"></div>
+      <div class="mimg" style="background-image:url('https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-vmZKPk9_4YqrGhWlW6sDA-LnN9t2t3FBr_rciYzilJ4fHIlhsYAs6i1i5xe3skQ/200x200')"></div>
       <div class="minfo"><div class="mname">Sealed Genesis Terminal</div><span class="mbadge">БЕЗ КЛЮЧА</span><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
   </div>
@@ -1678,24 +1669,38 @@ function renderAll(){
 
 // ═══ BOOT ════════════════════════════════════════════════════
 // ═══ SUBSCRIPTION CHECK ════════════════════════════════════
-// Замени на свои данные Supabase:
 const SB_URL = 'https://zbcrvehfdfwmyejqowvp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY3J2ZWhmZGZ3bXllanFvd3ZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDI3MTcsImV4cCI6MjA5NTM3ODcxN30.IWe-2cFJYFkJBep5RkTLtFl6tZqQt8s4sjfawiYI3ss';
 
+// ID пользователей у которых всегда есть доступ (твой Telegram ID)
+const FREE_ACCESS_IDS = [5951274076];
+
 async function checkSubscription(tgId){
+  // Бесплатный доступ для владельца
+  if(FREE_ACCESS_IDS.includes(Number(tgId))) return true;
   try{
     const r = await fetch(
       `${SB_URL}/rest/v1/users?tg_id=eq.${tgId}&select=sub_until`,
-      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}}
+      {
+        headers:{
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY
+        },
+        signal: AbortSignal.timeout(8000)
+      }
     );
+    if(!r.ok){
+      console.error('Sub check HTTP error:', r.status);
+      return false; // при ошибке HTTP — блокируем
+    }
     const data = await r.json();
-    if(!data||!data.length) return false;
+    if(!data || !data.length) return false; // нет в базе — нет доступа
     const sub = data[0].sub_until;
-    if(!sub) return false;
-    return new Date(sub) > new Date();
+    if(!sub) return false; // нет даты — нет доступа
+    return new Date(sub) > new Date(); // проверяем дату
   }catch(e){
     console.error('Sub check error:',e);
-    return true; // если ошибка сети — пускаем (не блокируем)
+    return false; // при любой ошибке — блокируем, не пускаем
   }
 }
 
@@ -1718,16 +1723,28 @@ function showNoSubScreen(){
         <div style="background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:14px;padding:16px;margin-bottom:24px">
           <div style="font-size:28px;margin-bottom:8px">🔒</div>
           <div style="font-size:16px;font-weight:800;color:#f85149;margin-bottom:6px">Подписка не активна</div>
-          <div style="font-size:13px;color:#8b7a58;line-height:1.5">Для доступа к приложению необходима активная подписка</div>
+          <div style="font-size:13px;color:#8b7a58;line-height:1.5">Для доступа необходима активная подписка</div>
         </div>
         <div style="font-size:13px;color:#8b7a58;line-height:1.6;margin-bottom:24px">
-          Вернись в бот и купи подписку чтобы начать пользоваться CS2 Manager
+          Вернись в бот и купи подписку, чтобы начать пользоваться CS2 Manager
         </div>
         <button onclick="window.Telegram?.WebApp?.close()" style="width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:12px;padding:14px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.05em">
           Вернуться в бот
         </button>
       </div>
     </div>`;
+}
+
+function showLoadingScreen(){
+  document.body.style.background = '#0d1117';
+  document.body.innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117">
+      <div style="text-align:center">
+        <div style="width:48px;height:48px;border:3px solid rgba(240,160,0,.2);border-top-color:#f0a000;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px"></div>
+        <div style="font-size:13px;color:rgba(240,160,0,.6);font-family:-apple-system,sans-serif;letter-spacing:.05em">ПРОВЕРКА ПОДПИСКИ...</div>
+      </div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
 }
 
 function boot(){
@@ -1739,21 +1756,35 @@ function boot(){
       tg.BackButton.hide();
       if(tg.colorScheme==='light'&&!localStorage.getItem(KEY))S.theme='light';
 
-      // Проверяем подписку
+      // Показываем экран загрузки пока проверяем
+      showLoadingScreen();
+
       const tgUser = tg.initDataUnsafe?.user;
-      if(tgUser && tgUser.id && SB_URL !== 'https://ТВОЙ_ПРОЕКТ.supabase.co'){
-        checkSubscription(tgUser.id).then(hasAccess=>{
-          if(!hasAccess){
-            showNoSubScreen();
-          } else {
+      const tgId = tgUser?.id;
+
+      if(tgId){
+        // Есть ID — проверяем подписку
+        checkSubscription(tgId).then(hasAccess=>{
+          if(hasAccess){
             initApp();
+          } else {
+            showNoSubScreen();
           }
+        }).catch(()=>{
+          showNoSubScreen(); // при любой ошибке — блокируем
         });
-        return; // ждём проверки
+      } else {
+        // Нет ID Telegram — блокируем (открыто не через Telegram)
+        showNoSubScreen();
       }
+      return;
     }
-    initApp(); // если не в Telegram или URL не настроен — запускаем без проверки
-  }catch(e){console.error('Boot',e);initApp()}
+    // Открыто в браузере вне Telegram — блокируем
+    showNoSubScreen();
+  }catch(e){
+    console.error('Boot error:',e);
+    showNoSubScreen();
+  }
 }
 
 function initApp(){
@@ -1775,6 +1806,13 @@ function initApp(){
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
 else boot();
+
+// Скрывать клавиатуру при тапе на свободное место
+document.addEventListener('click', e=>{
+  if(!e.target.closest('input,textarea,select,.fin,.sp-input')){
+    document.activeElement?.blur();
+  }
+});
 
 window.addEventListener('resize',()=>{
   clearTimeout(window._rt);
