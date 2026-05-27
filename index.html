@@ -1677,6 +1677,59 @@ function renderAll(){
 }
 
 // ═══ BOOT ════════════════════════════════════════════════════
+// ═══ SUBSCRIPTION CHECK ════════════════════════════════════
+// Замени на свои данные Supabase:
+const SB_URL = 'https://ТВОЙ_ПРОЕКТ.supabase.co';
+const SB_KEY = 'ТВОЙ_ANON_KEY';
+
+async function checkSubscription(tgId){
+  try{
+    const r = await fetch(
+      `${SB_URL}/rest/v1/users?tg_id=eq.${tgId}&select=sub_until`,
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}}
+    );
+    const data = await r.json();
+    if(!data||!data.length) return false;
+    const sub = data[0].sub_until;
+    if(!sub) return false;
+    return new Date(sub) > new Date();
+  }catch(e){
+    console.error('Sub check error:',e);
+    return true; // если ошибка сети — пускаем (не блокируем)
+  }
+}
+
+function showNoSubScreen(){
+  document.body.innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117;padding:24px;font-family:-apple-system,sans-serif">
+      <div style="text-align:center;max-width:320px">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="margin-bottom:24px">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0a000"/><stop offset="1" stop-color="#58a6ff"/></linearGradient></defs>
+          <circle cx="40" cy="40" r="38" stroke="url(#g)" stroke-width="3"/>
+          <circle cx="40" cy="40" r="24" stroke="url(#g)" stroke-width="2" opacity=".5"/>
+          <circle cx="40" cy="40" r="10" fill="url(#g)" opacity=".8"/>
+          <line x1="40" y1="10" x2="40" y2="20" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="40" y1="60" x2="40" y2="70" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="10" y1="40" x2="20" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="40" x2="70" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div style="font-size:28px;font-weight:900;color:#f0e8d8;margin-bottom:8px;letter-spacing:-.02em">CS2 Manager</div>
+        <div style="font-size:13px;color:#58a6ff;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px">Farm Tracker</div>
+        <div style="background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:14px;padding:16px;margin-bottom:24px">
+          <div style="font-size:28px;margin-bottom:8px">🔒</div>
+          <div style="font-size:16px;font-weight:800;color:#f85149;margin-bottom:6px">Подписка не активна</div>
+          <div style="font-size:13px;color:#8b7a58;line-height:1.5">Для доступа к приложению необходима активная подписка</div>
+        </div>
+        <div style="font-size:13px;color:#8b7a58;line-height:1.6;margin-bottom:24px">
+          Вернись в бот и купи подписку чтобы начать пользоваться CS2 Manager
+        </div>
+        <button onclick="window.Telegram?.WebApp?.close()" style="width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:12px;padding:14px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.05em">
+          Вернуться в бот
+        </button>
+      </div>
+    </div>`;
+}
+
 function boot(){
   try{
     if(window.Telegram?.WebApp){
@@ -1685,7 +1738,26 @@ function boot(){
       tg.setHeaderColor('#0d1117');tg.setBackgroundColor('#0d1117');
       tg.BackButton.hide();
       if(tg.colorScheme==='light'&&!localStorage.getItem(KEY))S.theme='light';
+
+      // Проверяем подписку
+      const tgUser = tg.initDataUnsafe?.user;
+      if(tgUser && tgUser.id && SB_URL !== 'https://ТВОЙ_ПРОЕКТ.supabase.co'){
+        checkSubscription(tgUser.id).then(hasAccess=>{
+          if(!hasAccess){
+            showNoSubScreen();
+          } else {
+            initApp();
+          }
+        });
+        return; // ждём проверки
+      }
     }
+    initApp(); // если не в Telegram или URL не настроен — запускаем без проверки
+  }catch(e){console.error('Boot',e);initApp()}
+}
+
+function initApp(){
+  try{
     load();
     document.documentElement.setAttribute('data-theme',S.theme||'cs2photo');
     document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('active',b.dataset.t===(S.theme||'cs2photo')));
@@ -1699,7 +1771,7 @@ function boot(){
     loadFX();setInterval(loadFX,600000);
     if(S.theme==='matrix')startMatrix();
   }catch(e){console.error('Boot',e)}
-}
+} // end initApp
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
 else boot();
