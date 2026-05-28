@@ -1757,12 +1757,29 @@ function boot(){
       showLoadingScreen();
       setLoadStatus('Получаем данные...');
 
+      // Пробуем получить ID несколькими способами
       const tgUser = tg.initDataUnsafe?.user;
-      const tgId = tgUser?.id;
+      const tgId = tgUser?.id || tg.initDataUnsafe?.user?.id;
 
-      if(tgId){
+      // Парсим initData вручную если initDataUnsafe не работает
+      let parsedId = tgId;
+      if(!parsedId && tg.initData){
+        try{
+          const params = new URLSearchParams(tg.initData);
+          const userStr = params.get('user');
+          if(userStr){
+            const userObj = JSON.parse(decodeURIComponent(userStr));
+            parsedId = userObj?.id;
+          }
+        }catch(e){ console.error('Parse initData error:', e); }
+      }
+
+      const finalId = parsedId || tgId;
+      console.log('TG ID:', finalId, 'FREE:', FREE_ACCESS_IDS);
+
+      if(finalId){
         setLoadStatus('Проверяем подписку...');
-        checkSubscription(tgId).then(hasAccess=>{
+        checkSubscription(finalId).then(hasAccess=>{
           if(hasAccess){
             initApp();
           } else {
@@ -1772,6 +1789,7 @@ function boot(){
           showNoSubScreen();
         });
       } else {
+        // Не удалось получить ID — показываем замок
         showNoSubScreen();
       }
       return;
