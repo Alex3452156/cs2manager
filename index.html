@@ -1685,7 +1685,7 @@ const SB_URL = 'https://zbcrvehfdfwmyejqowvp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY3J2ZWhmZGZ3bXllanFvd3ZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDI3MTcsImV4cCI6MjA5NTM3ODcxN30.IWe-2cFJYFkJBep5RkTLtFl6tZqQt8s4sjfawiYI3ss';
 
 // ID пользователей у которых всегда есть доступ (твой Telegram ID)
-const FREE_ACCESS_IDS = [];
+const FREE_ACCESS_IDS = [5951274076];
 
 let lastSubError = '';
 async function checkSubscription(tgId){
@@ -1746,7 +1746,10 @@ function showNoSubScreen(){
     </div>`;
 }
 
+let _originalBodyHTML = null;
+
 function showLoadingScreen(){
+  _originalBodyHTML = document.body.innerHTML;
   document.body.style.background='#0d1117';
   document.body.innerHTML=`
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117">
@@ -1812,6 +1815,10 @@ function boot(){
 
 function initApp(){
   try{
+    if(_originalBodyHTML !== null){
+      document.body.innerHTML = _originalBodyHTML;
+      _originalBodyHTML = null;
+    }
     load();
     document.documentElement.setAttribute('data-theme',S.theme||'cs2photo');
     document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('active',b.dataset.t===(S.theme||'cs2photo')));
