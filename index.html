@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#0d1117">
-<title>CS2 Manager</title>
+<title>CS2Manager</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 /* ═══ THEMES ═══════════════════════════════════════════ */
@@ -346,6 +346,43 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
 </head>
 <body>
 <canvas id="matrixCv"></canvas>
+
+<!-- ACCESS GATE — показывается мгновенно, до загрузки приложения -->
+<style>
+#gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#0d1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;padding:24px;opacity:1;transition:opacity .3s ease}
+#gate.hide{opacity:0;pointer-events:none}
+#gate .gbox{text-align:center;max-width:340px;width:100%}
+#gate .glogo{width:84px;height:84px;border-radius:20px;object-fit:cover;margin:0 auto 18px;display:block;box-shadow:0 0 40px rgba(240,160,0,.25)}
+#gate .gt{font-size:26px;font-weight:900;color:#f0e8d8;letter-spacing:-.02em}
+#gate .gs{font-size:12px;color:#58a6ff;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-top:4px}
+#gate .gspin{width:42px;height:42px;border:3px solid rgba(240,160,0,.18);border-top-color:#f0a000;border-radius:50%;animation:gspin .8s linear infinite;margin:26px auto 0}
+@keyframes gspin{to{transform:rotate(360deg)}}
+#gate .gmsg{font-size:13px;color:rgba(240,160,0,.65);margin-top:14px;letter-spacing:.04em}
+#gate .glock{margin-top:24px}
+#gate .glock-card{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:16px;padding:20px 18px;margin-bottom:18px}
+#gate .glock-ic{font-size:34px;margin-bottom:10px}
+#gate .glock-t{font-size:17px;font-weight:800;color:#f85149;margin-bottom:8px}
+#gate .glock-d{font-size:13px;color:#b09a78;line-height:1.55}
+#gate .gbtn{width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:14px;padding:15px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.05em}
+#gate .gbtn:active{transform:scale(.97)}
+</style>
+<div id="gate">
+  <div class="gbox">
+    <img class="glogo" src="https://raw.githubusercontent.com/Alex3452156/cs2manager/main/logo.png" onerror="this.style.display='none'">
+    <div class="gt">CS2 Manager</div>
+    <div class="gs">Farm Tracker</div>
+    <div id="gSpin" class="gspin"></div>
+    <div id="gMsg" class="gmsg">Загрузка…</div>
+    <div id="gLock" class="glock" style="display:none">
+      <div class="glock-card">
+        <div class="glock-ic">🔒</div>
+        <div class="glock-t">Подписка не активна</div>
+        <div class="glock-d">Чтобы пользоваться CS2 Manager, оформи подписку в боте. После оплаты доступ откроется автоматически.</div>
+      </div>
+      <button class="gbtn" onclick="if(window.Telegram&&window.Telegram.WebApp)window.Telegram.WebApp.close()">Купить подписку в боте</button>
+    </div>
+  </div>
+</div>
 
 <!-- SVG SPRITE -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
@@ -808,7 +845,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
 // === SELLERS DATA (редактируй здесь) ========================
 // === SHOP JSON URL — замени на свой GitHub raw URL =========
 // Формат файла shop.json описан в боте-админке
-const SHOP_JSON_URL = 'https://raw.githubusercontent.com/YOUR_NICK/YOUR_REPO/main/shop.json';
+const SHOP_JSON_URL = 'https://raw.githubusercontent.com/Alex3452156/cs2manager/main/shop.json';
 const SHOP_DEFAULT = {
   updated:'',contact:'@your_telegram',
   items:[
@@ -1680,158 +1717,158 @@ function renderAll(){
 }
 
 // ═══ BOOT ════════════════════════════════════════════════════
-// ═══ SUBSCRIPTION CHECK ════════════════════════════════════
+// ═══ SUBSCRIPTION GATE ═════════════════════════════════════
+// ВАЖНО: вставь сюда anon (public) ключ из Supabase → Settings → API.
+// Таблица users должна быть доступна на чтение этому ключу
+// (либо RLS выключен, либо есть SELECT-политика для anon на колонку sub_until).
 const SB_URL = 'https://zbcrvehfdfwmyejqowvp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY3J2ZWhmZGZ3bXllanFvd3ZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDI3MTcsImV4cCI6MjA5NTM3ODcxN30.IWe-2cFJYFkJBep5RkTLtFl6tZqQt8s4sjfawiYI3ss';
+const KEY_PLACEHOLDER = 'ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ';
 
-// ID пользователей у которых всегда есть доступ (твой Telegram ID)
+// ID, у которых доступ есть всегда (владелец / доверенные)
 const FREE_ACCESS_IDS = [5951274076];
 
-let lastSubError = '';
-async function checkSubscription(tgId){
-  if(FREE_ACCESS_IDS.includes(Number(tgId))) return true;
-  try{
-    const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(), 6000);
-    const r=await fetch(
-      `${SB_URL}/rest/v1/users?tg_id=eq.${tgId}&select=sub_until&limit=1`,
-      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},signal:controller.signal}
-    );
-    clearTimeout(timer);
-    if(!r.ok){
-      lastSubError = 'Supabase '+r.status;
-      // 401/403 = ключ неверный → пускаем (не виним пользователя)
-      if(r.status===401||r.status===403) return true;
-      return false;
-    }
-    const data=await r.json();
-    if(!data||!data.length){ lastSubError='нет записи в базе'; return false; }
-    const sub=data[0].sub_until;
-    if(!sub){ lastSubError='подписка не выдана'; return false; }
-    return new Date(sub)>new Date();
-  }catch(e){
-    lastSubError = e.message || 'сеть';
-    return true; // ошибка сети → пускаем
-  }
-}
-
-function showNoSubScreen(){
-  document.body.innerHTML = `
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117;padding:24px;font-family:-apple-system,sans-serif">
-      <div style="text-align:center;max-width:320px">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="margin-bottom:24px">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0a000"/><stop offset="1" stop-color="#58a6ff"/></linearGradient></defs>
-          <circle cx="40" cy="40" r="38" stroke="url(#g)" stroke-width="3"/>
-          <circle cx="40" cy="40" r="24" stroke="url(#g)" stroke-width="2" opacity=".5"/>
-          <circle cx="40" cy="40" r="10" fill="url(#g)" opacity=".8"/>
-          <line x1="40" y1="10" x2="40" y2="20" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="40" y1="60" x2="40" y2="70" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="10" y1="40" x2="20" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="60" y1="40" x2="70" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <div style="font-size:28px;font-weight:900;color:#f0e8d8;margin-bottom:8px;letter-spacing:-.02em">CS2 Manager</div>
-        <div style="font-size:13px;color:#58a6ff;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px">Farm Tracker</div>
-        <div style="background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:14px;padding:16px;margin-bottom:24px">
-          <div style="font-size:28px;margin-bottom:8px">🔒</div>
-          <div style="font-size:16px;font-weight:800;color:#f85149;margin-bottom:6px">Подписка не активна</div>
-          <div style="font-size:13px;color:#8b7a58;line-height:1.5">Для доступа необходима активная подписка</div>
-        </div>
-        <div style="font-size:13px;color:#8b7a58;line-height:1.6;margin-bottom:24px">
-          Вернись в бот и купи подписку, чтобы начать пользоваться CS2 Manager
-        </div>
-        <button onclick="window.Telegram?.WebApp?.close()" style="width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:12px;padding:14px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.05em">
-          Вернуться в бот
-        </button>
-      </div>
-    </div>`;
-}
-
-let _originalBodyHTML = null;
-
-function showLoadingScreen(){
-  _originalBodyHTML = document.body.innerHTML;
-  document.body.style.background='#0d1117';
-  document.body.innerHTML=`
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117">
-      <div style="text-align:center">
-        <div style="width:44px;height:44px;border:3px solid rgba(240,160,0,.2);border-top-color:#f0a000;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px"></div>
-        <div id="loadStatus" style="font-size:13px;color:rgba(240,160,0,.6);font-family:-apple-system,sans-serif;letter-spacing:.04em">Проверка...</div>
-      </div>
-    </div>
-    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
-}
-
-function setLoadStatus(msg){
-  const el=document.getElementById('loadStatus');
-  if(el) el.textContent=msg;
-}
+// Кеш подписки — даёт мгновенный вход при повторных открытиях
+const SUB_CACHE_KEY = 'cs2mgr-sub';
 
 function getTgId(tg){
-  let id = tg?.initDataUnsafe?.user?.id;
-  if(id) return id;
-  if(tg?.initData){
+  let id = tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id;
+  if(id) return Number(id);
+  if(tg && tg.initData){
     try{
-      const p = new URLSearchParams(tg.initData);
-      const u = p.get('user');
-      if(u){ return JSON.parse(decodeURIComponent(u))?.id; }
+      const u = new URLSearchParams(tg.initData).get('user');
+      if(u){ const o = JSON.parse(decodeURIComponent(u)); if(o && o.id) return Number(o.id); }
     }catch(e){}
   }
   return null;
 }
 
-function boot(){
+function subValid(until){ return !!until && new Date(until).getTime() > Date.now(); }
+function cacheRead(){ try{ return JSON.parse(localStorage.getItem(SUB_CACHE_KEY)||'null'); }catch(e){ return null; } }
+function cacheWrite(id, until){ try{ localStorage.setItem(SUB_CACHE_KEY, JSON.stringify({id:id, until:until})); }catch(e){} }
+function cacheClear(){ try{ localStorage.removeItem(SUB_CACHE_KEY); }catch(e){} }
+
+// Читает sub_until из Supabase. {ok:true,until} | {ok:false,status|error}
+async function fetchSub(tgId){
+  const ctrl = new AbortController();
+  const t = setTimeout(function(){ ctrl.abort(); }, 4000);
   try{
-    if(window.Telegram?.WebApp){
-      const tg=window.Telegram.WebApp;
-      tg.ready();tg.expand();
-      tg.setHeaderColor('#0d1117');tg.setBackgroundColor('#0d1117');
-      tg.BackButton.hide();
-      if(tg.colorScheme==='light'&&!localStorage.getItem(KEY))S.theme='light';
+    const r = await fetch(
+      SB_URL + '/rest/v1/users?tg_id=eq.' + tgId + '&select=sub_until&limit=1',
+      { headers:{ apikey:SB_KEY, Authorization:'Bearer '+SB_KEY }, signal:ctrl.signal, cache:'no-store' }
+    );
+    clearTimeout(t);
+    if(!r.ok) return { ok:false, status:r.status };
+    const d = await r.json();
+    const until = (Array.isArray(d) && d[0] && d[0].sub_until) ? d[0].sub_until : null;
+    return { ok:true, until:until };
+  }catch(e){
+    clearTimeout(t);
+    return { ok:false, error:(e && e.message) || 'network' };
+  }
+}
 
-      const tgId = getTgId(tg);
+// ── Управление воротами (НЕ трогает DOM приложения) ─────────
+let _appStarted = false;
+function startAppOnce(){
+  if(_appStarted) return;
+  _appStarted = true;
+  initApp();
+}
+function liftGate(){
+  startAppOnce();
+  const g = document.getElementById('gate');
+  if(!g) return;
+  g.classList.add('hide');
+  setTimeout(function(){ if(g && g.parentNode) g.parentNode.removeChild(g); }, 320);
+}
+function showLock(){
+  const g = document.getElementById('gate');
+  if(!g) return;
+  const sp = document.getElementById('gSpin');
+  const ms = document.getElementById('gMsg');
+  const lk = document.getElementById('gLock');
+  if(sp) sp.style.display = 'none';
+  if(ms) ms.style.display = 'none';
+  if(lk) lk.style.display = 'block';
+}
 
-      // Владелец и доверенные — сразу внутрь
-      if(tgId && FREE_ACCESS_IDS.includes(Number(tgId))){
-        initApp(); return;
-      }
-      // Ключ не настроен — не блокируем
-      if(SB_KEY === 'ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ' || !SB_KEY){
-        console.warn('SB_KEY не настроен'); initApp(); return;
-      }
-      // Нет ID — пускаем
-      if(!tgId){ console.warn('Нет tgId'); initApp(); return; }
-
-      showLoadingScreen();
-      checkSubscription(tgId).then(ok=>{
-        if(ok) initApp(); else showNoSubScreen();
-      }).catch(err=>{
-        console.error('Проверка не удалась:', err); initApp();
-      });
-      return;
+// ── Главный вход ────────────────────────────────────────────
+async function boot(){
+  let tg = null;
+  try{
+    if(window.Telegram && window.Telegram.WebApp){
+      tg = window.Telegram.WebApp;
+      try{ tg.ready(); }catch(e){}
+      try{ tg.expand(); }catch(e){}
+      try{ tg.setHeaderColor('#0d1117'); tg.setBackgroundColor('#0d1117'); }catch(e){}
+      try{ tg.BackButton.hide(); }catch(e){}
+      if(tg.colorScheme==='light' && !localStorage.getItem(KEY)) S.theme='light';
     }
-    initApp();
-  }catch(e){console.error('Boot',e);initApp()}
+  }catch(e){ console.error('tg init', e); }
+
+  // Вне Telegram (предпросмотр в браузере) — сразу внутрь
+  if(!tg){ liftGate(); return; }
+
+  const tgId = getTgId(tg);
+
+  // Владелец / доверенные — мгновенно
+  if(tgId && FREE_ACCESS_IDS.indexOf(tgId) !== -1){ liftGate(); return; }
+
+  // Ключ не настроен — не блокируем (режим разработки)
+  if(!SB_KEY || SB_KEY === KEY_PLACEHOLDER){ console.warn('SB_KEY не задан — доступ открыт'); liftGate(); return; }
+
+  // Нет Telegram ID — не виним пользователя
+  if(!tgId){ console.warn('Нет tgId — доступ открыт'); liftGate(); return; }
+
+  // 1) Оптимистичный кеш → мгновенный вход + тихая ре-проверка в фоне
+  const cached = cacheRead();
+  if(cached && cached.id === tgId && subValid(cached.until)){
+    liftGate();
+    fetchSub(tgId).then(function(res){
+      if(res.ok){
+        if(subValid(res.until)) cacheWrite(tgId, res.until);
+        else cacheClear(); // подписка кончилась → заблокируется при следующем открытии
+      }
+    });
+    return;
+  }
+
+  // 2) Кеша нет → проверяем (ворота уже крутят спиннер)
+  const res = await fetchSub(tgId);
+
+  // Ошибка сети / таймаут / неверный ключ → fail-open,
+  // чтобы платящие пользователи никогда не упирались в замок из-за сбоя.
+  if(!res.ok){
+    console.warn('Проверка подписки не удалась (', (res.status || res.error), ') → доступ открыт');
+    liftGate();
+    return;
+  }
+
+  if(subValid(res.until)){
+    cacheWrite(tgId, res.until);
+    liftGate();
+  }else{
+    cacheClear();
+    showLock();
+  }
 }
 
 function initApp(){
   try{
-    if(_originalBodyHTML !== null){
-      document.body.innerHTML = _originalBodyHTML;
-      _originalBodyHTML = null;
-    }
     load();
-    document.documentElement.setAttribute('data-theme',S.theme||'cs2photo');
-    document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('active',b.dataset.t===(S.theme||'cs2photo')));
+    document.documentElement.setAttribute('data-theme', S.theme || 'cs2photo');
+    document.querySelectorAll('.tbtn').forEach(function(b){ b.classList.toggle('active', b.dataset.t === (S.theme||'cs2photo')); });
     initInputs();
-    setCur(S.currency||'rub');
-    document.getElementById('commState').textContent=S.withComm?'вкл':'выкл';
-    document.getElementById('commBtn').classList.toggle('on',S.withComm);
-    loadShop();renderFAQ();renderAll();
-    updateTimer();setInterval(updateTimer,1000);
-    setInterval(updateLive,1000);
-    loadFX();setInterval(loadFX,600000);
-    if(S.theme==='matrix')startMatrix();
-  }catch(e){console.error('Boot',e)}
+    setCur(S.currency || 'rub');
+    const cs = document.getElementById('commState'); if(cs) cs.textContent = S.withComm ? 'вкл' : 'выкл';
+    const cb = document.getElementById('commBtn');  if(cb) cb.classList.toggle('on', S.withComm);
+    loadShop(); renderFAQ(); renderAll();
+    updateTimer(); setInterval(updateTimer, 1000);
+    setInterval(updateLive, 1000);
+    loadFX(); setInterval(loadFX, 600000);
+    if(S.theme === 'matrix') startMatrix();
+  }catch(e){ console.error('initApp', e); }
 } // end initApp
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
