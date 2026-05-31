@@ -932,15 +932,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
 </div></div>
 
 <!-- Share Preview Modal -->
-<div class="ov" id="previewOv"><div class="modal" style="padding-bottom:20px">
-  <div class="mhdr"><span>Предпросмотр</span><button class="mcls" onclick="document.getElementById('previewOv').classList.remove('open')"><svg class="ti" width="16" height="16"><use href="#i-x"/></svg></button></div>
+<div class="ov" id="previewOv"><div class="modal" style="padding:16px 16px 20px">
   <div style="display:flex;justify-content:center;margin-bottom:14px">
-    <canvas id="previewCanvas" style="border-radius:16px;max-width:100%;box-shadow:0 8px 32px rgba(0,0,0,.5)"></canvas>
+    <canvas id="previewCanvas" style="border-radius:20px;max-width:100%;box-shadow:0 12px 40px rgba(0,0,0,.55)"></canvas>
   </div>
-  <button class="btn accent" id="downloadBtn">
-    <svg class="ti" width="14" height="14"><use href="#i-down"/></svg> Сохранить фото
-  </button>
-  <div style="font-size:11px;color:var(--dim);text-align:center;margin-top:8px">Сохрани → отправь в Telegram как фото</div>
+  <div style="display:grid;gap:9px">
+    <button class="btn accent" id="shareBtn"><svg class="ti" width="14" height="14"><use href="#i-share"/></svg> Поделиться / Переслать</button>
+    <button class="btn secondary" onclick="document.getElementById('previewOv').classList.remove('open')">← Назад</button>
+  </div>
 </div></div>
 
 <div class="flash" id="flash"></div>
@@ -1454,133 +1453,194 @@ function openShareModal(){
   document.getElementById('shareOv').classList.add('open');
 }
 
-function buildShareImage(d,mode){
-  const W=480,H=720;
+function buildShareImage(d, mode){
+  const W=420,H=720,R=22;
   const cv=document.getElementById('previewCanvas');
   cv.width=W;cv.height=H;
   const ctx=cv.getContext('2d');
-  const theme=S.theme||'dark';
 
-  // Фон
-  const bgMap={cs2photo:['#0c1118','#111a26'],summer:['#0d1a0a','#1c300a'],void:['#000','#000515'],light:['#1a1040','#0f082e'],bw:['#0a0a0a','#141414'],matrix:['#000500','#001000'],yp:['#120008','#1a0a12']};
-  const[bg1,bg2]=bgMap[theme]||bgMap.cs2photo;
-  const bgGrad=ctx.createLinearGradient(0,0,0,H);
-  bgGrad.addColorStop(0,bg1);bgGrad.addColorStop(1,bg2);
-  ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);
+  // Читаем цвета из текущей темы
+  const cs=getComputedStyle(document.documentElement);
+  const gc=v=>cs.getPropertyValue(v).trim()||'#888';
+  const bgClr=gc('--bg'), bg2Clr=gc('--bg2');
+  const textClr=gc('--text'), dimClr=gc('--dim');
+  const c1=gc('--p'), c2=gc('--c'), border2=gc('--border2');
 
-  // Сетка
-  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;
-  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
-  for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
-
-  // Свечения
-  function glow(x,y,r,col){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
-  glow(W*.2,0,W*.6,'rgba(240,160,0,.14)');
-  glow(W*.8,0,W*.5,'rgba(88,166,255,.12)');
-  glow(W*.5,H,W*.6,'rgba(86,211,100,.08)');
-
-  // Акценты
-  const acMap={cs2photo:['#f0a000','#58a6ff'],summer:['#aaee00','#ffdd00'],void:['#0088ff','#00ccff'],light:['#7c3aed','#0284c7'],bw:['#ccc','#fff'],matrix:['#00ff46','#00cc37'],yp:['#ffdd00','#ff69b4']};
-  const[c1,c2]=acMap[theme]||acMap.cs2photo;
-  const green='#56d364';
-  const dimC='rgba(255,255,255,.42)';
-
-  // Верхняя линия
-  const topG=ctx.createLinearGradient(0,0,W,0);
-  topG.addColorStop(0,'transparent');topG.addColorStop(.3,c1);topG.addColorStop(.7,c2);topG.addColorStop(1,'transparent');
-  ctx.fillStyle=topG;ctx.fillRect(0,0,W,4);
-
-  // Лого прицел
-  const lx=44,ly=52;
-  ctx.strokeStyle=c1;ctx.lineWidth=3;
-  ctx.beginPath();ctx.arc(lx,ly,18,0,Math.PI*2);ctx.stroke();
-  ctx.fillStyle=c1;ctx.globalAlpha=.8;ctx.beginPath();ctx.arc(lx,ly,7,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
-  [[0,-18,0,-10],[0,10,0,18],[-18,0,-10,0],[10,0,18,0]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(lx+x1,ly+y1);ctx.lineTo(lx+x2,ly+y2);ctx.strokeStyle=c1;ctx.lineWidth=3;ctx.lineCap='round';ctx.stroke()});
-
-  // Название
-  ctx.fillStyle='#fff';ctx.font='bold 28px Arial,sans-serif';ctx.fillText('CS2 Manager',74,46);
-  ctx.fillStyle=dimC;ctx.font='500 16px Arial,sans-serif';ctx.fillText('Farm Report',76,68);
-
-  // Бейдж
-  const badgeT=mode==='all'?'Всё время':'Неделя';
-  const bw=120,bh=30,bx=W-36-bw,by=30;
-  ctx.fillStyle='rgba(255,255,255,.07)';ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.rect(bx,by,bw,bh);ctx.fill();ctx.stroke();
-  ctx.fillStyle=dimC;ctx.font='bold 14px Arial,sans-serif';ctx.textAlign='center';ctx.fillText(badgeT,bx+bw/2,by+20);ctx.textAlign='left';
-
-  // Комиссия пометка
-  if(d.withComm){ctx.fillStyle='rgba(240,160,0,.6)';ctx.font='bold 11px Arial,sans-serif';ctx.textAlign='right';ctx.fillText('с учётом комиссии',W-36,90);ctx.textAlign='left'}
-
-  // Разделитель
-  ctx.fillStyle=topG;ctx.fillRect(30,98,W-60,1.5);
-
-  // Главное число
-  const earnY=138;
-  ctx.fillStyle=dimC;ctx.font='bold 16px Arial,sans-serif';
-  ctx.fillText(d.withComm?'Заработано (с комиссией)':'Заработано',30,earnY);
-  const earnStr=(d.totalUSD>=0?'+':'')+'$'+d.totalUSD.toFixed(2);
-  const eG=ctx.createLinearGradient(30,0,30+300,0);
-  eG.addColorStop(0,'#00e8a2');eG.addColorStop(.5,'#00c8ff');eG.addColorStop(1,'#7c6fff');
-  ctx.fillStyle=eG;ctx.font='bold 72px Arial,sans-serif';ctx.fillText(earnStr,30,earnY+80);
-  // В рублях/в $
-  const rubVal=d.totalUSD*getRate();
-  ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='500 18px Arial,sans-serif';
-  ctx.fillText(S.currency==='usd'?'≈ '+rubVal.toLocaleString('ru-RU',{maximumFractionDigits:0})+' ₽':'',30,earnY+110);
-
-  // Разделитель
-  ctx.fillStyle=topG;ctx.fillRect(30,earnY+128,W-60,1.5);
-
-  // Карточки 2×2
-  const cy2=earnY+154,ch=100,gp=12;
-  const cw=(W-60-gp)/2;
-  function card2(x,y,w,h,lbl,val,sub,col){
-    ctx.fillStyle='rgba(255,255,255,.06)';ctx.strokeStyle=col+'55';ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.rect(x,y,w,h);ctx.fill();ctx.stroke();
-    const cg2=ctx.createLinearGradient(x,y,x+w*.5,y+h*.5);cg2.addColorStop(0,col+'33');cg2.addColorStop(1,'transparent');
-    ctx.fillStyle=cg2;ctx.fillRect(x,y,w*.5,h*.5);
-    ctx.fillStyle=dimC;ctx.font='bold 11px Arial,sans-serif';ctx.fillText(lbl.toUpperCase(),x+12,y+22);
-    ctx.fillStyle=col;ctx.font='bold 28px Arial,sans-serif';ctx.fillText(val,x+12,y+60);
-    if(sub){ctx.fillStyle=dimC;ctx.font='12px Arial,sans-serif';ctx.fillText(sub,x+12,y+80)}
+  function rr(x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);
+    ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
   }
-  card2(30,cy2,cw,ch,'Аккаунтов',d.accsCount.toString(),'отфармлено',c1);
-  card2(30+cw+gp,cy2,cw,ch,'Ср. дроп','$'+d.avgDrop.toFixed(2),'за акк/нед',c2);
-  card2(30,cy2+ch+gp,cw,ch,'Недель',d.weeks.toString(),'фарма',green);
-  card2(30+cw+gp,cy2+ch+gp,cw,ch,'Окупаемость',d.prog.toFixed(0)+'%','от вложений',d.prog>=100?green:c2);
 
-  // Прогресс
-  const py=cy2+ch*2+gp*2+16;
-  ctx.fillStyle=dimC;ctx.font='bold 12px Arial,sans-serif';ctx.fillText('ПРОГРЕСС ОКУПАЕМОСТИ',30,py);
-  ctx.textAlign='right';
-  const pG=ctx.createLinearGradient(W-120,0,W-30,0);pG.addColorStop(0,'#00e8a2');pG.addColorStop(1,'#00c8ff');
-  ctx.fillStyle=pG;ctx.font='bold 24px Arial,sans-serif';ctx.fillText(d.prog.toFixed(1)+'%',W-30,py+2);ctx.textAlign='left';
-  const ty=py+14,th=10,bww=W-60;
-  ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(30,ty,bww,th);
-  const fw2=Math.max(0,Math.min(1,d.prog/100))*bww;
-  if(fw2>0){const pg2=ctx.createLinearGradient(30,0,30+fw2,0);pg2.addColorStop(0,'#00e8a2');pg2.addColorStop(1,'#00c8ff');ctx.fillStyle=pg2;ctx.fillRect(30,ty,fw2,th);ctx.shadowColor='#00e8a2';ctx.shadowBlur=14;ctx.fillRect(30,ty,fw2,th);ctx.shadowBlur=0}
+  function draw(logo){
+    ctx.clearRect(0,0,W,H);
+    ctx.save();
+    rr(0,0,W,H,R);ctx.clip();
 
-  // Футер
-  ctx.fillStyle='rgba(255,255,255,.06)';ctx.fillRect(0,H-56,W,56);
-  ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(0,H-57,W,1.5);
-  ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='bold 15px Arial,sans-serif';ctx.fillText('CS2Manager',30,H-28);
-  const dt=new Date().toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'});
-  ctx.fillStyle='rgba(255,255,255,.2)';ctx.font='15px Arial,sans-serif';ctx.textAlign='right';ctx.fillText(dt,W-30,H-28);ctx.textAlign='left';
+    // Фон
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,bg2Clr);bg.addColorStop(1,bgClr);
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
 
-  // Нижняя линия
-  const bl=ctx.createLinearGradient(0,0,W,0);
-  bl.addColorStop(0,'#00e8a2');bl.addColorStop(.33,'#00c8ff');bl.addColorStop(.66,'#7c6fff');bl.addColorStop(1,'#ff7b54');
-  ctx.fillStyle=bl;ctx.fillRect(0,H-5,W,5);
+    // Свечение top-right
+    const gl=ctx.createRadialGradient(W*.82,0,0,W*.82,0,W*.7);
+    gl.addColorStop(0,c1+'38');gl.addColorStop(1,'transparent');
+    ctx.fillStyle=gl;ctx.fillRect(0,0,W,H);
 
-  // Показать превью
+    // Сетка
+    ctx.strokeStyle='rgba(255,255,255,.035)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+    for(let y=0;y<H;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+
+    // Верхняя линия
+    const tg=ctx.createLinearGradient(0,0,W,0);
+    tg.addColorStop(0,'transparent');tg.addColorStop(.3,c1);tg.addColorStop(.7,c2);tg.addColorStop(1,'transparent');
+    ctx.fillStyle=tg;ctx.fillRect(0,0,W,3);
+
+    // ── Логотип ──
+    const ls=52,lx=22,ly=22;
+    ctx.save();
+    rr(lx,ly,ls,ls,13);ctx.clip();
+    if(logo){
+      ctx.drawImage(logo,lx,ly,ls,ls);
+    } else {
+      // fallback crosshair
+      const cx=lx+ls/2,cy=ly+ls/2;
+      const lg=ctx.createLinearGradient(lx,ly,lx+ls,ly+ls);
+      lg.addColorStop(0,c1);lg.addColorStop(1,c2);
+      ctx.fillStyle=lg;ctx.fillRect(lx,ly,ls,ls);
+      ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=2.5;ctx.lineCap='round';
+      ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fill();
+      [[0,-14,0,-8],[0,8,0,14],[-14,0,-8,0],[8,0,14,0]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(cx+x1,cy+y1);ctx.lineTo(cx+x2,cy+y2);ctx.stroke()});
+    }
+    ctx.restore();
+
+    // Название
+    const tx=lx+ls+14;
+    ctx.textBaseline='alphabetic';
+    ctx.fillStyle=textClr;ctx.font='bold 22px Arial,sans-serif';
+    ctx.fillText('CS2 Manager',tx,ly+22);
+
+    // Бейдж
+    const bl=mode==='all'?'Всё время':'Неделя';
+    ctx.font='bold 13px Arial,sans-serif';
+    const bw=ctx.measureText(bl).width+26,bh=28,bx=W-22-bw,by=ly+2;
+    ctx.fillStyle='rgba(255,255,255,.07)';rr(bx,by,bw,bh,14);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=1;rr(bx,by,bw,bh,14);ctx.stroke();
+    ctx.fillStyle=dimClr;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(bl,bx+bw/2,by+bh/2);
+    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+
+    // Разделитель
+    const dg=ctx.createLinearGradient(22,0,W-22,0);
+    dg.addColorStop(0,'transparent');dg.addColorStop(.5,c1+'60');dg.addColorStop(1,'transparent');
+    const d1y=ly+ls+16;ctx.fillStyle=dg;ctx.fillRect(22,d1y,W-44,1);
+
+    // ── Заработано ──
+    const ey=d1y+22;
+    ctx.fillStyle=dimClr;ctx.font='bold 11px Arial,sans-serif';
+    ctx.fillText('ЗАРАБОТАНО'+(d.withComm?' (С КОМИССИЕЙ)':''),22,ey);
+
+    const rate=getRate();
+    let earnStr,earnSub;
+    if(S.currency==='usd'){
+      earnStr=(d.totalUSD>=0?'+':'−')+'$'+Math.abs(d.totalUSD).toFixed(2);
+      earnSub='≈ '+Math.round(Math.abs(d.totalUSD)*rate).toLocaleString('ru-RU')+' ₽';
+    } else {
+      const rub=d.totalUSD*rate;
+      earnStr=(rub>=0?'+':'−')+Math.round(Math.abs(rub)).toLocaleString('ru-RU')+' ₽';
+      earnSub='≈ $'+Math.abs(d.totalUSD).toFixed(2);
+    }
+
+    // Авто-подгон шрифта
+    let fs=62;ctx.font='900 '+fs+'px Arial,sans-serif';
+    while(ctx.measureText(earnStr).width>W-44&&fs>32){fs-=2;ctx.font='900 '+fs+'px Arial,sans-serif';}
+    const eg=ctx.createLinearGradient(22,0,22+ctx.measureText(earnStr).width,0);
+    eg.addColorStop(0,c1);eg.addColorStop(1,c2);
+    ctx.fillStyle=eg;ctx.fillText(earnStr,22,ey+18+fs*.8);
+    ctx.fillStyle='rgba(255,255,255,.25)';ctx.font='17px Arial,sans-serif';
+    ctx.fillText(earnSub,22,ey+18+fs*.8+24);
+
+    const d2y=ey+18+fs*.8+48;ctx.fillStyle=dg;ctx.fillRect(22,d2y,W-44,1);
+
+    // ── 2×2 карточки ──
+    const sc=d2y+14,gp=9,cw=(W-44-gp)/2,ch=92;
+    function stCard(x,y,lbl,val,sub,col){
+      ctx.fillStyle='rgba(255,255,255,.05)';rr(x,y,cw,ch,12);ctx.fill();
+      ctx.strokeStyle=col+'40';ctx.lineWidth=1.5;rr(x,y,cw,ch,12);ctx.stroke();
+      ctx.fillStyle=dimClr;ctx.font='bold 10px Arial,sans-serif';ctx.textBaseline='top';
+      ctx.fillText(lbl,x+12,y+11);
+      let vfs=24;ctx.font='bold '+vfs+'px Arial,sans-serif';
+      while(ctx.measureText(val).width>cw-22&&vfs>14){vfs--;ctx.font='bold '+vfs+'px Arial,sans-serif';}
+      ctx.fillStyle=col;ctx.fillText(val,x+12,y+30);
+      ctx.fillStyle='rgba(255,255,255,.22)';ctx.font='11px Arial,sans-serif';ctx.fillText(sub,x+12,y+72);
+      ctx.textBaseline='alphabetic';
+    }
+    const invStr=S.currency==='usd'?'$'+Math.round(d.invN).toLocaleString('ru-RU'):Math.round(d.invN).toLocaleString('ru-RU')+' ₽';
+    stCard(22,sc,'АККАУНТОВ',String(d.accsCount),'отфармлено',c1);
+    stCard(22+cw+gp,sc,'СР. ДРОП','$'+d.avgDrop.toFixed(2),'за акк/нед',c2);
+    stCard(22,sc+ch+gp,'НЕДЕЛЬ',String(d.weeks),'фарма',textClr);
+    stCard(22+cw+gp,sc+ch+gp,'ВЛОЖЕНО',invStr,'в аккаунты',textClr);
+
+    // ── Окупаемость ──
+    const py=sc+ch*2+gp*2+18;
+    ctx.fillStyle=dimClr;ctx.font='bold 11px Arial,sans-serif';ctx.textBaseline='alphabetic';
+    ctx.fillText('ОКУПАЕМОСТЬ',22,py);
+    const pg=ctx.createLinearGradient(W-120,0,W-22,0);
+    pg.addColorStop(0,c1);pg.addColorStop(1,c2);
+    ctx.fillStyle=pg;ctx.textAlign='right';ctx.font='bold 22px Arial,sans-serif';
+    ctx.fillText(d.prog.toFixed(1)+'%',W-22,py+2);ctx.textAlign='left';
+    const bary=py+10,barH=8,barW=W-44;
+    ctx.fillStyle='rgba(255,255,255,.08)';rr(22,bary,barW,barH,4);ctx.fill();
+    const fw=Math.max(0,Math.min(1,d.prog/100))*barW;
+    if(fw>4){const pg2=ctx.createLinearGradient(22,0,22+fw,0);pg2.addColorStop(0,c1);pg2.addColorStop(1,c2);ctx.fillStyle=pg2;rr(22,bary,fw,barH,4);ctx.fill();}
+
+    // ── Футер ──
+    ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillRect(0,H-46,W,46);
+    ctx.fillStyle='rgba(255,255,255,.07)';ctx.fillRect(0,H-47,W,1);
+    ctx.fillStyle='rgba(255,255,255,.28)';ctx.font='bold 13px Arial,sans-serif';ctx.textBaseline='middle';
+    ctx.fillText('CS2Manager',22,H-23);
+    const dt=new Date().toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'});
+    ctx.textAlign='right';ctx.fillStyle='rgba(255,255,255,.18)';ctx.fillText(dt,W-22,H-23);
+    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+
+    // Радужная полоса
+    const rb=ctx.createLinearGradient(0,0,W,0);
+    rb.addColorStop(0,c1);rb.addColorStop(.5,c2);rb.addColorStop(1,c1);
+    ctx.fillStyle=rb;ctx.fillRect(0,H-5,W,5);
+
+    ctx.restore();
+    // Рамка
+    rr(.75,.75,W-1.5,H-1.5,R);ctx.strokeStyle=border2||c1;ctx.lineWidth=1.5;ctx.stroke();
+  }
+
+  // Сразу показываем с fallback, потом перерисовываем с логотипом
+  draw(null);
   document.getElementById('previewOv').classList.add('open');
-  document.getElementById('downloadBtn').onclick=()=>{
-    cv.toBlob(blob=>{
-      if(!blob){showFlash('Ошибка',false);return}
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url;a.download='cs2farm-report.png';
-      document.body.appendChild(a);a.click();document.body.removeChild(a);
-      showFlash('Фото сохранено!');
-      setTimeout(()=>URL.revokeObjectURL(url),10000);
+
+  const img=new Image();img.crossOrigin='anonymous';
+  img.onload=function(){draw(img);};
+  img.src='https://raw.githubusercontent.com/Alex3452156/cs2manager/main/logo.png';
+
+  // Кнопка Поделиться
+  const sb=document.getElementById('shareBtn');
+  if(sb) sb.onclick=function(){
+    cv.toBlob(function(blob){
+      if(!blob){showFlash('Ошибка',false);return;}
+      if(navigator.share){
+        const file=new File([blob],'cs2farm-report.png',{type:'image/png'});
+        navigator.share({files:[file],title:'CS2 Manager — Farm Report'}).catch(function(){
+          const u=URL.createObjectURL(blob);const a=document.createElement('a');
+          a.href=u;a.download='cs2farm-report.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
+          setTimeout(function(){URL.revokeObjectURL(u);},15000);
+        });
+      } else {
+        const u=URL.createObjectURL(blob);const a=document.createElement('a');
+        a.href=u;a.download='cs2farm-report.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
+        showFlash('Фото сохранено!');setTimeout(function(){URL.revokeObjectURL(u);},15000);
+      }
     },'image/png');
   };
 }
