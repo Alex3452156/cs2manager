@@ -103,9 +103,9 @@ body,[data-theme="dark"] body{
 ──────────────────────────────────────────────────────────────*/
 [data-theme="light"]{
   --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;
-  --card:rgba(255,255,255,.07);--card2:rgba(255,255,255,.04);
+  --card:rgba(26,26,26,.97);--card2:rgba(14,14,14,.99);
   --border:rgba(255,255,255,.22);--border2:rgba(255,255,255,.50);
-  --text:#f0f0f0;--dim:#b0b0b0;--faint:#686868;
+  --text:#f2f2f2;--dim:#d0d0d0;--faint:#a8a8a8;
   --p:#ffffff;--pg:rgba(255,255,255,.16);
   --c:#d8d8d8;--cg:rgba(216,216,216,.16);
   --pk:#a8a8a8;--pkg:rgba(168,168,168,.16);
@@ -125,7 +125,7 @@ body,[data-theme="dark"] body{
 }
 [data-theme="light"] body::after{background-image:none!important}
 [data-theme="light"] .card{
-  background:rgba(255,255,255,.065)!important;
+  background:rgba(22,22,22,.97)!important;
   border:1px solid rgba(255,255,255,.18)!important;
   box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 8px 24px rgba(0,0,0,.55)!important;
   backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important
@@ -135,7 +135,7 @@ body,[data-theme="dark"] body{
 [data-theme="light"] .sp{background:rgba(8,8,8,.98)!important}
 [data-theme="light"] .logo-title{color:#f0f0f0}
 [data-theme="light"] .pg-title{color:#f0f0f0}
-[data-theme="light"] .fin{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.18)!important}
+[data-theme="light"] .fin{background:rgba(22,22,22,.97)!important;border-color:rgba(255,255,255,.22)!important}
 [data-theme="light"] .cur-btn.on{color:#000}
 [data-theme="light"] .btn.accent{color:#000}
 
@@ -156,28 +156,15 @@ body,[data-theme="dark"] body{
 }
 [data-theme="color"] body{
   background:
-    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(255,100,0,.38) 0%, transparent 52%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(255,80,0,.18) 0%, transparent 50%),
-    #0e0a04;
+    linear-gradient(rgba(12,16,24,.90),rgba(12,16,24,.90)),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=55') center/cover fixed
 }
 [data-theme="color"] body::before{
   content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* диагональные линии */
-  background-image:repeating-linear-gradient(
-    -45deg, transparent 0px, transparent 14px,
-    rgba(255,140,0,.05) 14px, rgba(255,140,0,.05) 15px
-  );
+  background:
+    radial-gradient(ellipse 65% 50% at 88% 5%,rgba(240,160,0,.22),transparent 52%),
+    radial-gradient(ellipse 55% 45% at 10% 95%,rgba(88,166,255,.16),transparent 52%)
 }
-[data-theme="color"] body::after{background-image:none!important}
-[data-theme="color"] .card{
-  background:rgba(255,140,0,.052)!important;
-  border:1px solid rgba(255,140,0,.30)!important;
-  box-shadow:0 0 0 1px rgba(255,140,0,.08) inset, 0 8px 32px rgba(180,80,0,.22)!important;
-  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important
-}
-[data-theme="color"] .hdr{background:rgba(14,10,4,.93)!important;border-bottom:1px solid rgba(255,140,0,.20)!important;backdrop-filter:blur(20px)!important}
-[data-theme="color"] .tabs{background:rgba(14,10,4,.96)!important;border-top:1px solid rgba(255,140,0,.18)!important;backdrop-filter:blur(20px)!important}
-[data-theme="color"] .sp{background:rgba(12,8,3,.97)!important}
 
 /* ─────────────────────────────────────────────────────────────
    YELLOW  —  «Золото»: очень тёмный + bright gold
@@ -554,7 +541,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
       <button class="tbtn" data-t="dark" onclick="setTheme('dark')">FIOL</button>
       <button class="tbtn" data-t="lightdark" onclick="setTheme('lightdark')">AQUA</button>
       <button class="tbtn" data-t="light" onclick="setTheme('light')">BLACK</button>
-      <button class="tbtn" data-t="color" onclick="setTheme('color')">ORANGE</button>
+      <button class="tbtn" data-t="color" onclick="setTheme('color')">CS2</button>
       <button class="tbtn" data-t="yellow" onclick="setTheme('yellow')" style="grid-column:span 2">YELLOW</button>
     </div>
   </div>
@@ -945,21 +932,43 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
 <div class="flash" id="flash"></div>
 
 <script>
-// === SELLERS DATA (редактируй здесь) ========================
-// === SHOP JSON URL — замени на свой GitHub raw URL =========
-// Формат файла shop.json описан в боте-админке
-const SHOP_JSON_URL = 'https://raw.githubusercontent.com/YOUR_NICK/YOUR_REPO/main/shop.json';
-const SHOP_DEFAULT = {
-  updated:'',contact:'@your_telegram',
-  items:[
-    {id:'prime1',name:'Готовый Prime аккаунт',sub:'1 ранг',price:'15.75$'},
-    {id:'prime2',name:'Готовый Prime аккаунт',sub:'2 ранг',price:'12.50$'},
-    {id:'blank1',name:'Пустышка',sub:'1 ранг',price:'0.30$'},
-    {id:'blank2',name:'Пустышка',sub:'2 ранг',price:'0.50$'},
-    {id:'rank2',name:'Поднятие аккаунта на 2 ранг',sub:'услуга',price:'0.20$'},
-    {id:'farm30',name:'Отфарм (30%)',sub:'от суммы дропа',price:'договорная'},
+// ╔══════════════════════════════════════════════════════════╗
+// ║         🛒 МАГАЗИН — редактируй прямо здесь             ║
+// ╠══════════════════════════════════════════════════════════╣
+// ║  ✏️  Как менять:                                         ║
+// ║   contact — твой Telegram (@ник)                        ║
+// ║   updated — дата обновления (показывается пользователям)║
+// ║   items   — массив товаров:                             ║
+// ║     name  = название товара                             ║
+// ║     sub   = подпись (ранг, тип услуги и т.д.)           ║
+// ║     price = цена в любом формате ("15.75$", "~$3")      ║
+// ║   tf2.buy / tf2.sell — цены TF2 ключей                  ║
+// ║                                                         ║
+// ║  ➕ Добавить товар — скопируй строку { name:... }       ║
+// ║  ❌ Убрать товар  — удали строку с товаром              ║
+// ╚══════════════════════════════════════════════════════════╝
+
+const SHOP_DATA = {
+
+  contact: "@your_contact",    // ← ВСТАВЬ СВОЙ TELEGRAM
+  updated: "01.06.2026",       // ← дата последнего обновления
+
+  // ── Товары магазина (добавляй / удаляй / меняй цены) ────
+  items: [
+    { name: "Готовый Prime аккаунт",   sub: "1 ранг",    price: "15.75$" },
+    { name: "Готовый Prime аккаунт",   sub: "2 ранг",    price: "12.50$" },
+    { name: "Пустышка",                sub: "1 ранг",    price: "0.30$"  },
+    { name: "Пустышка",                sub: "2 ранг",    price: "0.25$"  },
+    { name: "Поднятие на Ранг 2",      sub: "услуга",    price: "2.00$"  },
+    { name: "Фарм 30 акков",           sub: "1 неделя",  price: "10.00$" },
   ],
-  tf2:{buy:'1.66$',sell:'1.70$'}
+
+  // ── TF2 ключи ────────────────────────────────────────────
+  tf2: {
+    buy:  "1.70$",   // ← цена ПОКУПКИ ключей TF2
+    sell: "1.75$",   // ← цена ПРОДАЖИ ключей TF2
+  }
+
 };
 
 // ═══ FAQ DATA ═══════════════════════════════════════════════
@@ -1337,14 +1346,9 @@ function renderSkins(){
   // Скины убраны из UI
 }
 
-// ═══ SHOP ════════════════════════════════════════════════════
-async function loadShop(){
-  let data=SHOP_DEFAULT;
-  try{
-    const r=await fetch(SHOP_JSON_URL+'?t='+Date.now(),{signal:AbortSignal.timeout(5000)});
-    if(r.ok)data=await r.json();
-  }catch{}
-  renderShop(data);
+// ═══ SHOP — загружает SHOP_DATA напрямую из кода ═════════════
+function loadShop(){
+  renderShop(SHOP_DATA);
 }
 
 function renderShop(data){
@@ -1416,7 +1420,8 @@ function getShareData(mode,weekId){
   if(mode==='all'){
     totalUSD=S.journal.reduce((s,e)=>s+entryNet(e),0);
     weeks=S.journal.length;
-    accsCount=p.accs;
+    // Суммируем аккаунты по всем неделям (100 + 200 = 300, не текущий параметр)
+    accsCount=S.journal.reduce(function(s,e){return s+(e.accs||0);},0)||p.accs;
     avgDrop=weeks?S.journal.reduce((s,e)=>s+(e.drop||0),0)/weeks:0;
   } else {
     const e=S.journal.find(x=>x.id===weekId);
@@ -1454,7 +1459,7 @@ function openShareModal(){
 }
 
 function buildShareImage(d, mode){
-  const W=420,H=720,R=22;
+  const W=420,H=650,R=22;
   const cv=document.getElementById('previewCanvas');
   cv.width=W;cv.height=H;
   const ctx=cv.getContext('2d');
@@ -1948,15 +1953,22 @@ function showNoSubScreen(){
 }
 
 function showLoadingScreen(){
-  document.body.style.background='#0d1117';
-  document.body.innerHTML=`
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117">
-      <div style="text-align:center">
-        <div style="width:44px;height:44px;border:3px solid rgba(240,160,0,.2);border-top-color:#f0a000;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px"></div>
-        <div id="loadStatus" style="font-size:13px;color:rgba(240,160,0,.6);font-family:-apple-system,sans-serif;letter-spacing:.04em">Проверка...</div>
-      </div>
-    </div>
-    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
+  // Overlay поверх DOM — не удаляет элементы приложения
+  if(document.getElementById('loadOverlay')) return;
+  const el=document.createElement('div');
+  el.id='loadOverlay';
+  el.style.cssText='position:fixed;inset:0;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:0';
+  el.innerHTML=`
+    <div style="width:44px;height:44px;border:3px solid rgba(240,160,0,.15);border-top-color:#f0a000;border-radius:50%;animation:loadSpin 0.8s linear infinite"></div>
+    <div id="loadStatus" style="margin-top:16px;font-size:13px;color:rgba(240,160,0,.6);font-family:-apple-system,sans-serif;letter-spacing:.04em">Проверка...</div>
+    <style>@keyframes loadSpin{to{transform:rotate(360deg)}}</style>`;
+  document.body.appendChild(el);
+}
+function hideLoadingScreen(){
+  const el=document.getElementById('loadOverlay');
+  if(!el) return;
+  el.style.cssText+='transition:opacity .25s;opacity:0';
+  setTimeout(()=>{ try{el.remove()}catch{} },280);
 }
 
 function setLoadStatus(msg){
@@ -2012,6 +2024,7 @@ function boot(){
 }
 
 function initApp(){
+  hideLoadingScreen(); // убираем оверлей перед стартом
   try{
     load();
     document.documentElement.setAttribute('data-theme',S.theme||'dark');
