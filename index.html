@@ -102,42 +102,43 @@ body,[data-theme="dark"] body{
    Геометрическая сетка, карточки без прозрачности — тяжёлые
 ──────────────────────────────────────────────────────────────*/
 [data-theme="light"]{
-  --bg:#0a0a0a;--bg2:#141414;--bg3:#1e1e1e;
-  --card:rgba(26,26,26,.97);--card2:rgba(14,14,14,.99);
-  --border:rgba(255,255,255,.22);--border2:rgba(255,255,255,.50);
-  --text:#f2f2f2;--dim:#d0d0d0;--faint:#a8a8a8;
-  --p:#ffffff;--pg:rgba(255,255,255,.16);
-  --c:#d8d8d8;--cg:rgba(216,216,216,.16);
-  --pk:#a8a8a8;--pkg:rgba(168,168,168,.16);
-  --g:#22d3a6;--gg:rgba(34,211,166,.24);
-  --r:#f43f5e;--rg:rgba(244,63,94,.24);--y:#fbbf24;
+  --bg:#f7f7f7;--bg2:#efefef;--bg3:#e5e5e5;
+  --card:rgba(255,255,255,.97);--card2:rgba(250,250,250,.99);
+  --border:rgba(220,38,38,.25);--border2:rgba(220,38,38,.60);
+  --text:#111111;--dim:#444444;--faint:#888888;
+  --p:#dc2626;--pg:rgba(220,38,38,.20);
+  --c:#dc2626;--cg:rgba(220,38,38,.15);
+  --pk:#ef4444;--pkg:rgba(239,68,68,.18);
+  --g:#16a34a;--gg:rgba(22,163,74,.20);
+  --r:#dc2626;--rg:rgba(220,38,38,.20);--y:#d97706;
 }
-[data-theme="light"] body{background:#0a0a0a}
+[data-theme="light"] body{background:#f7f7f7}
 [data-theme="light"] body::before{
   content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* квадратная сетка как миллиметровая бумага */
+  background:
+    radial-gradient(ellipse 60% 40% at 50% -5%,rgba(220,38,38,.08),transparent 52%),
+    radial-gradient(circle at 92% 88%,rgba(220,38,38,.06),transparent 45%);
+}
+[data-theme="light"] body::after{
   background-image:
-    linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-  background-size:96px 96px, 96px 96px, 24px 24px, 24px 24px;
+    linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);
+  background-size:32px 32px!important
 }
-[data-theme="light"] body::after{background-image:none!important}
 [data-theme="light"] .card{
-  background:rgba(22,22,22,.97)!important;
-  border:1px solid rgba(255,255,255,.18)!important;
-  box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 8px 24px rgba(0,0,0,.55)!important;
-  backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important
+  background:rgba(255,255,255,.98)!important;
+  border:1px solid rgba(220,38,38,.20)!important;
+  box-shadow:0 2px 16px rgba(0,0,0,.08)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important
 }
-[data-theme="light"] .hdr{background:rgba(10,10,10,.95)!important;border-bottom:1px solid rgba(255,255,255,.10)!important;backdrop-filter:blur(20px)!important}
-[data-theme="light"] .tabs{background:rgba(10,10,10,.97)!important;border-top:1px solid rgba(255,255,255,.09)!important;backdrop-filter:blur(20px)!important}
-[data-theme="light"] .sp{background:rgba(8,8,8,.98)!important}
-[data-theme="light"] .logo-title{color:#f0f0f0}
-[data-theme="light"] .pg-title{color:#f0f0f0}
-[data-theme="light"] .fin{background:rgba(22,22,22,.97)!important;border-color:rgba(255,255,255,.22)!important}
-[data-theme="light"] .cur-btn.on{color:#000}
-[data-theme="light"] .btn.accent{color:#000}
+[data-theme="light"] .hdr{background:rgba(255,255,255,.97)!important;border-bottom:1.5px solid rgba(220,38,38,.18)!important;backdrop-filter:blur(12px)!important}
+[data-theme="light"] .tabs{background:rgba(255,255,255,.97)!important;border-top:1.5px solid rgba(220,38,38,.18)!important;backdrop-filter:blur(12px)!important}
+[data-theme="light"] .sp{background:rgba(248,248,248,.99)!important}
+[data-theme="light"] .logo-title{color:#111111}
+[data-theme="light"] .pg-title{color:#111111}
+[data-theme="light"] .fin{background:rgba(255,248,248,.98)!important;border-color:rgba(220,38,38,.25)!important;color:#111111!important}
+[data-theme="light"] .cur-btn.on{color:#ffffff}
+[data-theme="light"] .btn.accent{color:#ffffff}
 
 /* ─────────────────────────────────────────────────────────────
    ORANGE  —  «Закат»: угольный + тёплый amber
@@ -710,9 +711,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="card">
     <div class="card-title"><svg class="ti" width="13" height="13"><use href="#i-tag"/></svg> TF2 Ключи</div>
     <a href="https://steamcommunity.com/market/listings/440/Mann%20Co.%20Supply%20Crate%20Key" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#c8923a,#8a5a1f);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/><circle cx="12" cy="9" r="1.4" fill="#fff" stroke="none"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/fWFc82js0fmoRAP-qOIPu5THSWqfSmTELLqcUywGkijVjZULUrsm1j-9xgEAaR4uURrwvz0N252yVaDVWrRTno9m4ccG2GNqxlQoZrC2aG9hcVGUWflbX_drrVu5UGki5sAij6tOtQ/256fx256f') center/contain no-repeat,linear-gradient(135deg,#c8923a,#8a5a1f)"></div>
       <div class="minfo"><div class="mname">Mann Co. Supply Crate Key</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Team Fortress 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
   </div>
@@ -720,33 +719,23 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="card">
     <div class="card-title"><svg class="ti" width="13" height="13"><use href="#i-tag"/></svg> Кейсы CS2 (активный дроп)</div>
     <a href="https://steamcommunity.com/market/listings/730/Sealed%20Dead%20Hand%20Terminal" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#3a8f6b,#1f5a44);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h.01M12 14h.01M16 14h.01"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bj35VTqVBP4io_frnVk7P6he6FpbqHGCmSTk-hz5rZsHS3mwxgjsGjRytb7dC2VPwYlAschRrFbsBC4xNH5d7S1gfLQnNE/256fx256f') center/contain no-repeat,linear-gradient(135deg,#2d7a55,#163d2a)"></div>
       <div class="minfo"><div class="mname">Sealed Dead Hand Terminal</div><span class="mbadge">БЕЗ КЛЮЧА</span><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Kilowatt%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#d4a017,#a06800);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/><path d="M13 7l-2 3h2l-2 3" stroke="#ffe27a"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bj35VTqVBP4io_frnEVvqf_a6VoIfGSXz7Hlbwg57QwSS_mxhl15jiGyN37c3_GZw91W8BwRflK7EfKsa2sfw/256fx256f') center/contain no-repeat,linear-gradient(135deg,#c89000,#8a6000)"></div>
       <div class="minfo"><div class="mname">Kilowatt Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Dreams%20%26%20Nightmares%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#7a4fd4,#4a2a9f);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/><path d="M12 7.5l.7 1.8 1.8.2-1.4 1.3.4 1.9-1.5-1-1.5 1 .4-1.9-1.4-1.3 1.8-.2z" fill="#e0d0ff" stroke="none"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bj35VTqVBP4io_frnIV7Kb5OaU-JqfHDzXFle0u4LY8Gy_kkRgisGzcm4v4J3vDOAQmDMdyRvlK7EcmeCU3yw/256fx256f') center/contain no-repeat,linear-gradient(135deg,#6a3fc4,#3a1a8f)"></div>
       <div class="minfo"><div class="mname">Dreams & Nightmares Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Revolution%20Case" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#d44f4f,#9f2a2a);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/><circle cx="12" cy="9" r="2" stroke="#ffb0b0"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bj35VTqVBP4io_frnAVvfb6aqduc_TFVjTCxbx05OU4S3jilE9w4DzRnImtIy2Sa1JzDJEhRPlK7EcO4U8gfA/256fx256f') center/contain no-repeat,linear-gradient(135deg,#c43f3f,#8f1a1a)"></div>
       <div class="minfo"><div class="mname">Revolution Case</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Counter-Strike 2</div><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
     <a href="https://steamcommunity.com/market/listings/730/Sealed%20Genesis%20Terminal" target="_blank" rel="noopener" class="mitem">
-      <div class="mimg" style="background:linear-gradient(135deg,#3a7fd4,#1f4a8f);display:flex;align-items:center;justify-content:center">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" opacity=".95"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 14l2 2 2-2M14 13h3"/></svg>
-      </div>
+      <div class="mimg" style="background:url('https://community.fastly.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XsnXwtmkJjSU91dh8bj35VTqVBP4io_frnRk7P6he6FpbqWXCzSVkL4h6bExTHuwx0wk6mjUmdn_Iy2TbAUkCZslQu8CtBTrkNz5d7S1oNprwEg/256fx256f') center/contain no-repeat,linear-gradient(135deg,#2a6fc4,#0f3a7f)"></div>
       <div class="minfo"><div class="mname">Sealed Genesis Terminal</div><span class="mbadge">БЕЗ КЛЮЧА</span><span class="mlink">Steam Market <svg class="ti" width="11" height="11"><use href="#i-ext"/></svg></span></div>
     </a>
   </div>
