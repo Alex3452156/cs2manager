@@ -9,99 +9,11 @@
 <style>
 /* ═══ THEMES ═══════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════════════════
-   5 ТЕМ: FIOL · AQUA · BLACK · ORANGE · YELLOW
-   Каждая — свой характер, один акцент, но визуально богато
+   4 ТЕМЫ: LIGHT · BLACK · AQUA · PINK
    ══════════════════════════════════════════════════════════════ */
 
-/* ─────────────────────────────────────────────────────────────
-   FIOL  —  «Космос»: тёмно-синий/фиолет + мягкий purple accent
-   Фон как ночное небо, карточки — стекло с фиолетовым свечением
-──────────────────────────────────────────────────────────────*/
-:root,[data-theme="dark"]{
-  --bg:#08061a;--bg2:#100e28;--bg3:#181436;
-  --card:rgba(255,255,255,.04);--card2:rgba(255,255,255,.02);
-  --border:rgba(140,80,255,.40);--border2:rgba(140,80,255,.75);
-  --text:#ede8ff;--dim:#b8a8e8;--faint:#7868b0;
-  --p:#9d4edd;--pg:rgba(157,78,221,.30);
-  --c:#c084fc;--cg:rgba(192,132,252,.26);
-  --pk:#e879f9;--pkg:rgba(232,121,249,.26);
-  --g:#22d3a6;--gg:rgba(34,211,166,.24);
-  --r:#f43f5e;--rg:rgba(244,63,94,.24);--y:#fbbf24;
-}
-body,[data-theme="dark"] body{
-  background:
-    radial-gradient(ellipse 100% 65% at 60% 0%, rgba(100,40,200,.45) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 80% at 0% 100%, rgba(60,20,140,.35) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 100% 50%, rgba(80,30,160,.20) 0%, transparent 60%),
-    #08061a;
-}
-[data-theme="dark"] body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* точечная сетка — как звёздное небо */
-  background-image:radial-gradient(circle, rgba(160,100,255,.20) 1px, transparent 1px);
-  background-size:36px 36px;
-  animation:starfield 20s linear infinite
-}
-[data-theme="dark"] body::after{
-  background-image:none!important
-}
-@keyframes starfield{from{background-position:0 0}to{background-position:36px 36px}}
-[data-theme="dark"] .card{
-  background:rgba(255,255,255,.042)!important;
-  border:1px solid rgba(140,80,255,.32)!important;
-  box-shadow:0 0 0 1px rgba(140,80,255,.10) inset, 0 8px 32px rgba(80,20,180,.28)!important;
-  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important
-}
-[data-theme="dark"] .hdr{background:rgba(8,6,26,.92)!important;border-bottom:1px solid rgba(140,80,255,.25)!important;backdrop-filter:blur(20px)!important}
-[data-theme="dark"] .tabs{background:rgba(8,6,26,.95)!important;border-top:1px solid rgba(140,80,255,.22)!important;backdrop-filter:blur(20px)!important}
-[data-theme="dark"] .sp{background:rgba(10,8,28,.97)!important}
-[data-theme="dark"] .fin{box-shadow:0 0 28px rgba(100,40,200,.30) inset!important}
-
-/* ─────────────────────────────────────────────────────────────
-   AQUA  —  «Кибер-терминал»: чёрный + electric cyan
-   Горизонтальные скан-линии как экран монитора
-──────────────────────────────────────────────────────────────*/
-[data-theme="lightdark"]{
-  --bg:#030a0f;--bg2:#060f16;--bg3:#0a161e;
-  --card:rgba(0,230,255,.04);--card2:rgba(0,230,255,.02);
-  --border:rgba(0,210,255,.40);--border2:rgba(0,210,255,.75);
-  --text:#d0f8ff;--dim:#60c8e8;--faint:#288898;
-  --p:#00d4ff;--pg:rgba(0,212,255,.30);
-  --c:#22e8d0;--cg:rgba(34,232,208,.26);
-  --pk:#67e8f9;--pkg:rgba(103,232,249,.24);
-  --g:#22d3a6;--gg:rgba(34,211,166,.24);
-  --r:#f43f5e;--rg:rgba(244,63,94,.24);--y:#fbbf24;
-}
-[data-theme="lightdark"] body{
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,255,.30) 0%, transparent 52%),
-    radial-gradient(ellipse 40% 60% at 100% 60%, rgba(0,200,220,.15) 0%, transparent 55%),
-    #030a0f;
-}
-[data-theme="lightdark"] body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* горизонтальные скан-линии */
-  background-image:repeating-linear-gradient(
-    0deg, transparent 0px, transparent 3px,
-    rgba(0,220,255,.04) 3px, rgba(0,220,255,.04) 4px
-  );
-}
-[data-theme="lightdark"] body::after{background-image:none!important}
-[data-theme="lightdark"] .card{
-  background:rgba(0,220,255,.038)!important;
-  border:1px solid rgba(0,210,255,.35)!important;
-  box-shadow:0 0 0 1px rgba(0,210,255,.08) inset, 0 8px 32px rgba(0,140,200,.20)!important;
-  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important
-}
-[data-theme="lightdark"] .hdr{background:rgba(3,10,16,.94)!important;border-bottom:1px solid rgba(0,210,255,.22)!important;backdrop-filter:blur(20px)!important}
-[data-theme="lightdark"] .tabs{background:rgba(3,10,16,.96)!important;border-top:1px solid rgba(0,210,255,.20)!important;backdrop-filter:blur(20px)!important}
-[data-theme="lightdark"] .sp{background:rgba(4,12,18,.97)!important}
-
-/* ─────────────────────────────────────────────────────────────
-   BLACK  —  «Обсидиан»: матовый чёрный + белый accent
-   Геометрическая сетка, карточки без прозрачности — тяжёлые
-──────────────────────────────────────────────────────────────*/
-[data-theme="light"]{
+/* ─── LIGHT — белый фон, чёрный текст, красный акцент ──────── */
+:root,[data-theme="light"]{
   --bg:#f7f7f7;--bg2:#efefef;--bg3:#e5e5e5;
   --card:rgba(255,255,255,.97);--card2:rgba(250,250,250,.99);
   --border:rgba(220,38,38,.25);--border2:rgba(220,38,38,.60);
@@ -113,109 +25,100 @@ body,[data-theme="dark"] body{
   --r:#dc2626;--rg:rgba(220,38,38,.20);--y:#d97706;
 }
 [data-theme="light"] body{background:#f7f7f7}
-[data-theme="light"] body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% -5%,rgba(220,38,38,.08),transparent 52%),
-    radial-gradient(circle at 92% 88%,rgba(220,38,38,.06),transparent 45%);
+[data-theme="light"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% -5%,rgba(220,38,38,.08),transparent 52%),radial-gradient(circle at 92% 88%,rgba(220,38,38,.06),transparent 45%)}
+[data-theme="light"] body::after{background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);background-size:32px 32px!important}
+
+/* ─── BLACK — чёрный фон, белый текст, жёлтые акценты ─────── */
+[data-theme="dark"]{
+  --bg:#060606;--bg2:#101010;--bg3:#1a1a1a;
+  --card:rgba(18,18,18,.97);--card2:rgba(8,8,8,.99);
+  --border:rgba(251,191,36,.30);--border2:rgba(251,191,36,.65);
+  --text:#f5f5f5;--dim:#d4d4d4;--faint:#a0a0a0;
+  --p:#fbbf24;--pg:rgba(251,191,36,.26);
+  --c:#fde68a;--cg:rgba(253,230,138,.22);
+  --pk:#f59e0b;--pkg:rgba(245,158,11,.22);
+  --g:#22c55e;--gg:rgba(34,197,94,.22);
+  --r:#ef4444;--rg:rgba(239,68,68,.22);--y:#fbbf24;
 }
-[data-theme="light"] body::after{
-  background-image:
-    linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);
-  background-size:32px 32px!important
+[data-theme="dark"] body{background:#060606}
+[data-theme="dark"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 65% 50% at 88% 5%,rgba(251,191,36,.22),transparent 52%),radial-gradient(ellipse 50% 40% at 10% 92%,rgba(251,191,36,.10),transparent 50%)}
+[data-theme="dark"] body::after{background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px!important}
+
+/* ─── AQUA — стиль моря и океана ───────────────────────────── */
+[data-theme="lightdark"]{
+  --bg:#001628;--bg2:#002240;--bg3:#003058;
+  --card:rgba(0,28,55,.88);--card2:rgba(0,14,30,.95);
+  --border:rgba(6,182,212,.35);--border2:rgba(6,182,212,.70);
+  --text:#d0f4ff;--dim:#67e8f9;--faint:#0e7490;
+  --p:#06b6d4;--pg:rgba(6,182,212,.28);
+  --c:#22d3ee;--cg:rgba(34,211,238,.24);
+  --pk:#0891b2;--pkg:rgba(8,145,178,.22);
+  --g:#34d399;--gg:rgba(52,211,153,.22);
+  --r:#f43f5e;--rg:rgba(244,63,94,.22);--y:#fbbf24;
 }
-[data-theme="light"] .card{
-  background:rgba(255,255,255,.98)!important;
-  border:1px solid rgba(220,38,38,.20)!important;
-  box-shadow:0 2px 16px rgba(0,0,0,.08)!important;
-  backdrop-filter:none!important;-webkit-backdrop-filter:none!important
+[data-theme="lightdark"] body{background:#080c0e}
+[data-theme="lightdark"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 60% 48% at 88% 6%,rgba(6,182,212,.28),transparent 52%),radial-gradient(ellipse 45% 38% at 10% 90%,rgba(6,182,212,.14),transparent 50%)}
+[data-theme="lightdark"] body::after{background-image:linear-gradient(rgba(6,182,212,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.04) 1px,transparent 1px);background-size:28px 28px!important}
+
+/* ─── PINK — тёмно-розовый фон, розовые тона, читаемо ──────── */
+[data-theme="color"]{
+  --bg:#1a0820;--bg2:#280d30;--bg3:#361440;
+  --card:rgba(48,12,40,.88);--card2:rgba(24,6,20,.95);
+  --border:rgba(236,72,153,.32);--border2:rgba(236,72,153,.68);
+  --text:#fce7f3;--dim:#f9a8d4;--faint:#db2777;
+  --p:#ec4899;--pg:rgba(236,72,153,.28);
+  --c:#f472b6;--cg:rgba(244,114,182,.24);
+  --pk:#c084fc;--pkg:rgba(192,132,252,.22);
+  --g:#34d399;--gg:rgba(52,211,153,.22);
+  --r:#f43f5e;--rg:rgba(244,63,94,.22);--y:#fbbf24;
 }
-[data-theme="light"] .hdr{background:rgba(255,255,255,.97)!important;border-bottom:1.5px solid rgba(220,38,38,.18)!important;backdrop-filter:blur(12px)!important}
-[data-theme="light"] .tabs{background:rgba(255,255,255,.97)!important;border-top:1.5px solid rgba(220,38,38,.18)!important;backdrop-filter:blur(12px)!important}
+[data-theme="color"] body{background:#0e080c}
+[data-theme="color"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 60% 48% at 88% 6%,rgba(236,72,153,.26),transparent 52%),radial-gradient(ellipse 45% 38% at 10% 90%,rgba(236,72,153,.12),transparent 50%)}
+[data-theme="color"] body::after{background-image:linear-gradient(rgba(236,72,153,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(236,72,153,.045) 1px,transparent 1px);background-size:28px 28px!important}
+
+/* ═══ Per-element overrides ═════════════════════════════════ */
+
+/* LIGHT */
+[data-theme="light"] .card{background:rgba(255,255,255,.98)!important;border:1px solid rgba(220,38,38,.18)!important;box-shadow:0 2px 16px rgba(0,0,0,.08)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+[data-theme="light"] .hdr{background:rgba(255,255,255,.97)!important;border-bottom:1.5px solid rgba(220,38,38,.18)!important}
+[data-theme="light"] .tabs{background:rgba(255,255,255,.97)!important;border-top:1.5px solid rgba(220,38,38,.18)!important}
 [data-theme="light"] .sp{background:rgba(248,248,248,.99)!important}
+[data-theme="light"] .fin{background:rgba(255,248,248,.98)!important;border-color:rgba(220,38,38,.25)!important;color:#111111!important}
 [data-theme="light"] .logo-title{color:#111111}
 [data-theme="light"] .pg-title{color:#111111}
-[data-theme="light"] .fin{background:rgba(255,248,248,.98)!important;border-color:rgba(220,38,38,.25)!important;color:#111111!important}
 [data-theme="light"] .cur-btn.on{color:#ffffff}
 [data-theme="light"] .btn.accent{color:#ffffff}
+[data-theme="light"] .toggle-btn.on{color:#ffffff}
+[data-theme="light"] .chip.active{color:#ffffff}
 
-/* ─────────────────────────────────────────────────────────────
-   ORANGE  —  «Закат»: угольный + тёплый amber
-   Диагональные полосы + оранжевое зарево снизу
-──────────────────────────────────────────────────────────────*/
-[data-theme="color"]{
-  --bg:#0e0a04;--bg2:#1a1008;--bg3:#26180c;
-  --card:rgba(255,160,0,.05);--card2:rgba(255,120,0,.02);
-  --border:rgba(255,150,0,.40);--border2:rgba(255,150,0,.75);
-  --text:#fff3e0;--dim:#f0a040;--faint:#a86020;
-  --p:#f97316;--pg:rgba(249,115,22,.30);
-  --c:#fb923c;--cg:rgba(251,146,60,.26);
-  --pk:#fbbf24;--pkg:rgba(251,191,36,.24);
-  --g:#22d3a6;--gg:rgba(34,211,166,.24);
-  --r:#f43f5e;--rg:rgba(244,63,94,.24);--y:#fbbf24;
-}
-[data-theme="color"] body{
-  background:
-    linear-gradient(rgba(12,16,24,.90),rgba(12,16,24,.90)),
-    url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=55') center/cover fixed
-}
-[data-theme="color"] body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(ellipse 65% 50% at 88% 5%,rgba(240,160,0,.22),transparent 52%),
-    radial-gradient(ellipse 55% 45% at 10% 95%,rgba(88,166,255,.16),transparent 52%)
-}
+/* BLACK */
+[data-theme="dark"] .card{background:rgba(18,18,18,.97)!important;border:1px solid rgba(251,191,36,.22)!important;box-shadow:0 4px 20px rgba(0,0,0,.60)!important}
+[data-theme="dark"] .hdr{background:rgba(5,5,5,.98)!important;border-bottom:1.5px solid rgba(251,191,36,.18)!important}
+[data-theme="dark"] .tabs{background:rgba(5,5,5,.98)!important;border-top:1.5px solid rgba(251,191,36,.18)!important}
+[data-theme="dark"] .sp{background:rgba(4,4,4,.99)!important}
+[data-theme="dark"] .fin{border-color:rgba(251,191,36,.28)!important}
 
-/* ─────────────────────────────────────────────────────────────
-   YELLOW  —  «Золото»: очень тёмный + bright gold
-   Ромбическая сетка + золотая корона сверху
-──────────────────────────────────────────────────────────────*/
-[data-theme="yellow"]{
-  --bg:#0c0900;--bg2:#181200;--bg3:#241c00;
-  --card:rgba(255,210,0,.05);--card2:rgba(255,180,0,.02);
-  --border:rgba(255,210,0,.40);--border2:rgba(255,210,0,.75);
-  --text:#fffce0;--dim:#d4b000;--faint:#907800;
-  --p:#eab308;--pg:rgba(234,179,8,.30);
-  --c:#fde047;--cg:rgba(253,224,71,.26);
-  --pk:#fef08a;--pkg:rgba(254,240,138,.24);
-  --g:#22d3a6;--gg:rgba(34,211,166,.24);
-  --r:#f43f5e;--rg:rgba(244,63,94,.24);--y:#eab308;
-}
-[data-theme="yellow"] body{
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(255,200,0,.38) 0%, transparent 52%),
-    radial-gradient(ellipse 50% 40% at 10% 90%, rgba(220,150,0,.18) 0%, transparent 50%),
-    #0c0900;
-}
-[data-theme="yellow"] body::before{
-  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  /* ромбическая/диагональная сетка */
-  background-image:
-    linear-gradient(45deg, rgba(255,200,0,.06) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(255,200,0,.06) 1px, transparent 1px);
-  background-size:28px 28px;
-}
-[data-theme="yellow"] body::after{background-image:none!important}
-[data-theme="yellow"] .card{
-  background:rgba(255,200,0,.052)!important;
-  border:1px solid rgba(255,200,0,.30)!important;
-  box-shadow:0 0 0 1px rgba(255,200,0,.10) inset, 0 8px 32px rgba(180,130,0,.20)!important;
-  backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important
-}
-[data-theme="yellow"] .hdr{background:rgba(12,9,0,.93)!important;border-bottom:1px solid rgba(255,200,0,.20)!important;backdrop-filter:blur(20px)!important}
-[data-theme="yellow"] .tabs{background:rgba(12,9,0,.96)!important;border-top:1px solid rgba(255,200,0,.18)!important;backdrop-filter:blur(20px)!important}
-[data-theme="yellow"] .sp{background:rgba(10,7,0,.97)!important}
+/* AQUA */
+[data-theme="lightdark"] .card{background:rgba(14,22,26,.97)!important;border:1px solid rgba(6,182,212,.22)!important;box-shadow:0 4px 20px rgba(0,0,0,.55)!important}
+[data-theme="lightdark"] .hdr{background:rgba(6,10,12,.98)!important;border-bottom:1.5px solid rgba(6,182,212,.18)!important}
+[data-theme="lightdark"] .tabs{background:rgba(6,10,12,.98)!important;border-top:1.5px solid rgba(6,182,212,.16)!important}
+[data-theme="lightdark"] .sp{background:rgba(5,8,10,.99)!important}
 
-/* ═══ THEME BUTTONS ════════════════════════════════════════ */
+/* PINK */
+[data-theme="color"] .card{background:rgba(22,12,18,.97)!important;border:1px solid rgba(236,72,153,.20)!important;box-shadow:0 4px 20px rgba(0,0,0,.55)!important}
+[data-theme="color"] .hdr{background:rgba(8,4,6,.98)!important;border-bottom:1.5px solid rgba(236,72,153,.18)!important}
+[data-theme="color"] .tabs{background:rgba(8,4,6,.98)!important;border-top:1.5px solid rgba(236,72,153,.16)!important}
+[data-theme="color"] .sp{background:rgba(7,4,6,.99)!important}
+
+/* ═══ Theme buttons ═════════════════════════════════════════ */
 .themes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tbtn{padding:13px 8px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;font-family:inherit;font-size:11px;font-weight:900;text-align:center;text-transform:uppercase;letter-spacing:.08em;transition:all .2s;line-height:1.3}
+.tbtn{padding:13px 8px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;font-family:inherit;font-size:11px;font-weight:900;text-align:center;text-transform:uppercase;letter-spacing:.08em;transition:all .2s}
 .tbtn.active{outline:2px solid var(--p);outline-offset:2px;box-shadow:0 0 20px var(--pg)}
-.tbtn[data-t="dark"]{background:linear-gradient(145deg,#1a0848 0%,#3d1080 50%,#7c2ee8 100%);color:#ddbfff}
-.tbtn[data-t="lightdark"]{background:linear-gradient(145deg,#041018 0%,#003050 50%,#00a8d4 100%);color:#80eaff}
-.tbtn[data-t="light"]{background:linear-gradient(145deg,#0a0a0a 0%,#1c1c1c 50%,#383838 100%);border-color:rgba(255,255,255,.30)!important;color:#e8e8e8}
-.tbtn[data-t="color"]{background:linear-gradient(145deg,#1a0800 0%,#5a2000 50%,#d45a00 100%);color:#ffcc80}
-.tbtn[data-t="yellow"]{background:linear-gradient(145deg,#141000 0%,#4a3400 50%,#c89000 100%);color:#ffe880;font-weight:900}
+.tbtn[data-t="light"]{background:linear-gradient(145deg,#f0f0f0,#ffffff);border-color:rgba(220,38,38,.35)!important;color:#dc2626}
+.tbtn[data-t="dark"]{background:linear-gradient(145deg,#060606,#1a1a1a);border-color:rgba(251,191,36,.35)!important;color:#fbbf24}
+.tbtn[data-t="lightdark"]{background:linear-gradient(145deg,#080c0e,#0e1618,#06b6d4);color:#67e8f9}
+.tbtn[data-t="color"]{background:linear-gradient(145deg,#0e080c,#1a0e14,#ec4899);color:#f9a8d4}
+
 
 /* ═══ BASE ══════════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -539,11 +442,10 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="sp-sec">
     <div class="sp-lbl">Тема оформления</div>
     <div class="themes">
-      <button class="tbtn" data-t="dark" onclick="setTheme('dark')">FIOL</button>
+      <button class="tbtn" data-t="light" onclick="setTheme('light')">LIGHT</button>
+      <button class="tbtn" data-t="dark" onclick="setTheme('dark')">BLACK</button>
       <button class="tbtn" data-t="lightdark" onclick="setTheme('lightdark')">AQUA</button>
-      <button class="tbtn" data-t="light" onclick="setTheme('light')">BLACK</button>
-      <button class="tbtn" data-t="color" onclick="setTheme('color')">CS2</button>
-      <button class="tbtn" data-t="yellow" onclick="setTheme('yellow')" style="grid-column:span 2">YELLOW</button>
+      <button class="tbtn" data-t="color" onclick="setTheme('color')">PINK</button>
     </div>
   </div>
   <div class="sp-sec">
@@ -684,6 +586,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
         <button class="toggle-btn" onclick="shareCard('all')"><svg class="ti" width="12" height="12"><use href="#i-share"/></svg> За всё время</button>
         <button class="toggle-btn" onclick="openShareModal()"><svg class="ti" width="12" height="12"><use href="#i-share"/></svg> Выбрать неделю</button>
+        <button class="toggle-btn" onclick="openChannelModal()" style="background:var(--pg);border-color:var(--p);color:var(--p);font-weight:800"><svg class="ti" width="12" height="12"><use href="#i-trend"/></svg> Учёт для канала</button>
       </div>
     </div>
   </div>
@@ -898,6 +801,27 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="mhdr"><span>Импорт</span><button class="mcls" onclick="closeImport()"><svg class="ti" width="16" height="16"><use href="#i-x"/></svg></button></div>
   <textarea id="importData" class="fin" style="min-height:160px;font-size:12px;font-family:ui-monospace,monospace;resize:none"></textarea>
   <div class="brow"><button class="btn secondary" onclick="closeImport()">Отмена</button><button class="btn accent" onclick="importData()">Импорт</button></div>
+</div></div>
+
+<!-- Channel Report: Period Selector -->
+<div class="ov" id="channelSelOv"><div class="modal">
+  <div class="mhdr"><span>Учёт для канала</span><button class="mcls" onclick="document.getElementById('channelSelOv').classList.remove('open')"><svg class="ti" width="16" height="16"><use href="#i-x"/></svg></button></div>
+  <p style="font-size:13px;color:var(--dim);margin-bottom:14px">Выбери период для отчёта:</p>
+  <div style="display:grid;gap:9px;margin-bottom:4px">
+    <button class="btn accent" onclick="buildChannelReport('all')">📊 За всё время</button>
+  </div>
+  <p style="font-size:12px;color:var(--dim);margin:12px 0 8px">Или выбери конкретную неделю:</p>
+  <div id="channelWeekList"></div>
+</div></div>
+
+<!-- Channel Report: Result -->
+<div class="ov" id="channelRepOv"><div class="modal" style="padding:0;max-width:460px;overflow:hidden;border-radius:20px">
+  <canvas id="channelCanvas" style="display:block;width:100%;max-width:460px;border-radius:0"></canvas>
+  <div style="padding:16px;display:grid;gap:8px;background:var(--card2)">
+    <div id="channelText" style="font-size:13px;line-height:1.75;color:var(--text);white-space:pre-wrap;padding:12px;background:var(--bg2);border-radius:12px;border:1px solid var(--border);font-family:ui-monospace,monospace"></div>
+    <button class="btn accent" id="channelShareBtn"><svg class="ti" width="14" height="14"><use href="#i-share"/></svg> Поделиться / Переслать</button>
+    <button class="btn secondary" onclick="document.getElementById('channelRepOv').classList.remove('open');document.getElementById('channelSelOv').classList.add('open')">← Назад</button>
+  </div>
 </div></div>
 
 <!-- Share Week Modal -->
@@ -1196,7 +1120,7 @@ function renderJournal(){
       const dt=new Date(e.ts).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
       const note=e.note||'';
       const noteHtml=note?`<div class="wnote" onclick="this.classList.toggle('open')">${note}</div>`:'';
-      const netLine=S.withComm&&net<gross?`<div class="wamt-net">−комм: ${fmtUSD(net)}</div>`:'';
+      const netLine=S.withComm&&net<gross?`<div class="wamt-net">−комм: ${fmtEntry(net)}</div>`:'';
       return`<div class="wentry"><div class="wentry-top">
         <div class="winfo">
           <div class="wtitle"><span class="wnum">W${wn}</span><span>${dt}</span></div>
@@ -1422,6 +1346,158 @@ function getShareData(mode,weekId){
   const earnedN=S.currency==='usd'?totalUSD:totalUSD*rate;
   const prog=invN>0?Math.min(100,(earnedN/invN)*100):0;
   return{totalUSD,weeks,accsCount,avgDrop,prog,invN,earnedN,withComm:S.withComm};
+}
+
+// ─── Учёт для канала ──────────────────────────────────────
+function openChannelModal(){
+  const list=document.getElementById('channelWeekList');
+  list.innerHTML='';
+  if(!S.journal.length){list.innerHTML='<div style="color:var(--dim);font-size:13px">Нет записей в журнале</div>';return;}
+  // Сортируем как в журнале (новые первыми), нумеруем так же
+  const sorted=[...S.journal].sort(function(a,b){return b.ts-a.ts;});
+  sorted.forEach(function(e,idx){
+    const gross=entryGross(e);
+    const wn=S.journal.length-idx;  // реальный номер недели
+    const dt=new Date(e.ts).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
+    const btn=document.createElement('button');
+    btn.style.cssText='width:100%;background:var(--card);border:1.5px solid var(--border);color:var(--text);border-radius:11px;padding:12px;margin-bottom:7px;text-align:left;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center';
+    btn.innerHTML='<span>W'+wn+' · '+dt+'<span style="font-size:11px;color:var(--dim);font-weight:400;display:block">'+e.accs+' акк × $'+e.drop.toFixed(2)+'</span></span><span style="color:var(--p)">'+fmtEntry(gross)+'</span>';
+    btn.onclick=function(){buildChannelReport('week',e.id,wn);};
+    list.appendChild(btn);
+  });
+  document.getElementById('channelSelOv').classList.add('open');
+}
+
+function buildChannelReport(mode, weekId, weekNum){
+  document.getElementById('channelSelOv').classList.remove('open');
+  const d=getShareData(mode, weekId);
+  if(!d) return;
+  const rate=getRate();
+
+  // ── Формируем данные ──
+  const isAll=(mode==='all');
+  const weekLabel=isAll?'ВСЁ ВРЕМЯ':'W'+weekNum;
+  const title=isAll?'ОТЧЁТ ЗА ВСЁ ВРЕМЯ':'ОТЧЁТ ЗА '+weekNum+' НЕДЕЛЮ';
+
+  let earnStr;
+  if(S.currency==='usd'){
+    earnStr='$'+d.totalUSD.toFixed(2);
+  } else {
+    earnStr=Math.round(d.totalUSD*rate).toLocaleString('ru-RU')+' ₽';
+  }
+  let invStr;
+  if(S.currency==='usd'){
+    invStr='$'+d.invN.toFixed(2);
+  } else {
+    invStr=Math.round(d.invN).toLocaleString('ru-RU')+' ₽';
+  }
+
+  // ── Текстовая версия ──
+    const NL='\n';
+  const sep='━━━━━━━━━━━━━━━━━━━━━';
+  const textContent=[
+    '📊 '+title,
+    sep,'',
+    '👤 Количество праймов: '+d.accsCount,
+    (isAll?'💰 Заработано за всё время: ':'💰 Заработано за неделю: ')+earnStr,
+    '💸 Потрачено на праймы: '+invStr,
+    '',sep,'',
+    '📩 Связаться со мной: '+CHANNEL_CONTACT
+  ].join(NL);
+
+  document.getElementById('channelText').textContent=textContent;
+
+  // ── Canvas карточка ──
+  const cv=document.getElementById('channelCanvas');
+  const W=460, H=380, R=0;
+  cv.width=W*2; cv.height=H*2; // retina
+  cv.style.width=W+'px'; cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');
+  ctx.scale(2,2);
+
+  const cs=getComputedStyle(document.documentElement);
+  const gc=function(v){return cs.getPropertyValue(v).trim()||'#888';};
+  const bgC=gc('--bg'), bg2C=gc('--bg2'), textC=gc('--text');
+  const dimC=gc('--dim'), c1=gc('--p'), c2=gc('--c'), bord=gc('--border2');
+
+  // Background
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,bg2C); bg.addColorStop(1,bgC);
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+  // Top glow
+  const gl=ctx.createRadialGradient(W*.8,0,0,W*.8,0,W*.7);
+  gl.addColorStop(0,c1+'35'); gl.addColorStop(1,'transparent');
+  ctx.fillStyle=gl; ctx.fillRect(0,0,W,H);
+
+  // Top accent line (gradient)
+  const tg=ctx.createLinearGradient(0,0,W,0);
+  tg.addColorStop(0,'transparent'); tg.addColorStop(.3,c1); tg.addColorStop(.7,c2||c1); tg.addColorStop(1,'transparent');
+  ctx.fillStyle=tg; ctx.fillRect(0,0,W,5);
+
+  // Title
+  ctx.fillStyle=dimC; ctx.font='bold 11px Arial,sans-serif';
+  ctx.textBaseline='top'; ctx.textAlign='left';
+  ctx.fillText('CS2 MANAGER — ' + (isAll?'ВСЁ ВРЕМЯ':'НЕДЕЛЯ '+weekNum), 28, 22);
+
+  // Big title
+  ctx.fillStyle=textC; ctx.font='900 26px Arial,sans-serif';
+  ctx.fillText(title, 28, 44);
+
+  // Divider
+  const dg=ctx.createLinearGradient(28,0,W-28,0);
+  dg.addColorStop(0,'transparent'); dg.addColorStop(.5,c1+'55'); dg.addColorStop(1,'transparent');
+  ctx.fillStyle=dg; ctx.fillRect(28,86,W-56,1);
+
+  // Stats
+  function stat(label, value, y, col){
+    ctx.fillStyle=dimC; ctx.font='bold 11px Arial,sans-serif'; ctx.textBaseline='top';
+    ctx.fillText(label.toUpperCase(), 28, y);
+    ctx.fillStyle=col||textC; ctx.font='900 28px Arial,sans-serif';
+    ctx.fillText(value, 28, y+16);
+  }
+  stat('Количество праймов', d.accsCount+' акк.', 98, c1);
+  stat(isAll?'Заработано за всё время':'Заработано за неделю', earnStr, 162, c2||c1);
+  stat('Потрачено на праймы', invStr, 228, textC);
+
+  // Divider
+  ctx.fillStyle=dg; ctx.fillRect(28,296,W-56,1);
+
+  // Contact
+  ctx.fillStyle=dimC; ctx.font='bold 11px Arial,sans-serif';
+  ctx.fillText('СВЯЗАТЬСЯ СО МНОЙ', 28, 310);
+  ctx.fillStyle=c1; ctx.font='bold 18px Arial,sans-serif';
+  ctx.fillText(CHANNEL_CONTACT, 28, 328);
+
+  // Bottom rainbow strip
+  const rb=ctx.createLinearGradient(0,0,W,0);
+  rb.addColorStop(0,c1); rb.addColorStop(.5,c2||c1); rb.addColorStop(1,c1);
+  ctx.fillStyle=rb; ctx.fillRect(0,H-5,W,5);
+
+  // Show modal
+  document.getElementById('channelRepOv').classList.add('open');
+
+  // Share button
+  const sb=document.getElementById('channelShareBtn');
+  if(sb) sb.onclick=function(){
+    // Scale back for blob
+    const cv2=document.createElement('canvas');
+    cv2.width=W*2; cv2.height=H*2;
+    const ctx2=cv2.getContext('2d'); ctx2.drawImage(cv,0,0);
+    cv2.toBlob(function(blob){
+      if(!blob){showFlash('Ошибка',false);return;}
+      const textForShare=textContent;
+      if(navigator.share){
+        const file=new File([blob],'cs2-channel-report.png',{type:'image/png'});
+        navigator.share({files:[file],title:'CS2 Manager — Учёт для канала',text:textForShare}).catch(function(){});
+      } else {
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a'); a.href=url; a.download='cs2-channel-report.png';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        showFlash('Сохранено!'); setTimeout(function(){URL.revokeObjectURL(url);},15000);
+      }
+    },'image/png');
+  };
 }
 
 function shareCard(mode,weekId){
@@ -1879,66 +1955,75 @@ function renderAll(){
 const SB_URL = 'https://zbcrvehfdfwmyejqowvp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY3J2ZWhmZGZ3bXllanFvd3ZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MDI3MTcsImV4cCI6MjA5NTM3ODcxN30.IWe-2cFJYFkJBep5RkTLtFl6tZqQt8s4sjfawiYI3ss';
 
+// ─── Учёт для канала: твой контакт ────────────────────────
+// ← Вставь свой Telegram-ник (с @), будет показан в отчёте
+const CHANNEL_CONTACT = '@your_contact';
+
 // ID пользователей у которых всегда есть доступ (твой Telegram ID)
 const FREE_ACCESS_IDS = [5951274076];
 
-let lastSubError = '';
 async function checkSubscription(tgId){
-  if(FREE_ACCESS_IDS.includes(Number(tgId))) return true;
+  if(FREE_ACCESS_IDS.includes(Number(tgId))) return {ok:true};
   try{
-    const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(), 6000);
+    const ctrl=new AbortController();
+    const t=setTimeout(()=>ctrl.abort(),9000);
     const r=await fetch(
-      `${SB_URL}/rest/v1/users?tg_id=eq.${tgId}&select=sub_until&limit=1`,
-      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},signal:controller.signal}
+      SB_URL+'/rest/v1/users?tg_id=eq.'+tgId+'&select=sub_until&limit=1',
+      {headers:{apikey:SB_KEY,'Authorization':'Bearer '+SB_KEY},signal:ctrl.signal,cache:'no-store'}
     );
-    clearTimeout(timer);
+    clearTimeout(t);
     if(!r.ok){
-      lastSubError = 'Supabase '+r.status;
-      // 401/403 = ключ неверный → пускаем (не виним пользователя)
-      if(r.status===401||r.status===403) return true;
-      return false;
+      if(r.status===401) return {ok:false,err:'Неверный ключ (401). Вставь правильный anon key в SB_KEY.'};
+      if(r.status===403) return {ok:false,err:'Нет доступа (403). В Supabase выполни: CREATE POLICY r ON users FOR SELECT USING (true)'};
+      return {ok:false,err:'Ошибка сервера: '+r.status};
     }
-    const data=await r.json();
-    if(!data||!data.length){ lastSubError='нет записи в базе'; return false; }
-    const sub=data[0].sub_until;
-    if(!sub){ lastSubError='подписка не выдана'; return false; }
-    return new Date(sub)>new Date();
+    const d=await r.json();
+    if(!d||!d.length) return {ok:false,err:'no_sub'};
+    const sub=d[0].sub_until;
+    if(!sub) return {ok:false,err:'no_sub'};
+    const until=new Date(String(sub).replace('Z','+00:00'));
+    return until>new Date() ? {ok:true} : {ok:false,err:'expired'};
   }catch(e){
-    lastSubError = e.message || 'сеть';
-    return true; // ошибка сети → пускаем
+    // Сеть упала — делаем 1 повтор через 2 сек, потом блокируем
+    return {ok:false,err:'network',retry:true};
   }
 }
 
-function showNoSubScreen(){
-  document.body.innerHTML = `
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1117;padding:24px;font-family:-apple-system,sans-serif">
-      <div style="text-align:center;max-width:320px">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" style="margin-bottom:24px">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0a000"/><stop offset="1" stop-color="#58a6ff"/></linearGradient></defs>
-          <circle cx="40" cy="40" r="38" stroke="url(#g)" stroke-width="3"/>
-          <circle cx="40" cy="40" r="24" stroke="url(#g)" stroke-width="2" opacity=".5"/>
-          <circle cx="40" cy="40" r="10" fill="url(#g)" opacity=".8"/>
-          <line x1="40" y1="10" x2="40" y2="20" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="40" y1="60" x2="40" y2="70" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="10" y1="40" x2="20" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-          <line x1="60" y1="40" x2="70" y2="40" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <div style="font-size:28px;font-weight:900;color:#f0e8d8;margin-bottom:8px;letter-spacing:-.02em">CS2 Manager</div>
-        <div style="font-size:13px;color:#58a6ff;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px">Farm Tracker</div>
-        <div style="background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:14px;padding:16px;margin-bottom:24px">
-          <div style="font-size:28px;margin-bottom:8px">🔒</div>
-          <div style="font-size:16px;font-weight:800;color:#f85149;margin-bottom:6px">Подписка не активна</div>
-          <div style="font-size:13px;color:#8b7a58;line-height:1.5">Для доступа необходима активная подписка</div>
+function showNoSubScreen(reason){
+  const overlay=document.createElement('div');
+  overlay.id='noSubOverlay';
+  overlay.style.cssText='position:fixed;inset:0;background:#0d1117;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,sans-serif';
+  const isDiag = reason && reason!=='no_sub' && reason!=='expired';
+  const isExpired = reason==='expired';
+  overlay.innerHTML=`
+    <div style="text-align:center;max-width:340px">
+      <svg width="72" height="72" viewBox="0 0 80 80" fill="none" style="margin-bottom:20px">
+        <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0a000"/><stop offset="1" stop-color="#58a6ff"/></linearGradient></defs>
+        <circle cx="40" cy="40" r="38" stroke="url(#g2)" stroke-width="3"/>
+        <circle cx="40" cy="40" r="10" fill="url(#g2)" opacity=".8"/>
+        <line x1="40" y1="10" x2="40" y2="20" stroke="url(#g2)" stroke-width="3" stroke-linecap="round"/>
+        <line x1="40" y1="60" x2="40" y2="70" stroke="url(#g2)" stroke-width="3" stroke-linecap="round"/>
+        <line x1="10" y1="40" x2="20" y2="40" stroke="url(#g2)" stroke-width="3" stroke-linecap="round"/>
+        <line x1="60" y1="40" x2="70" y2="40" stroke="url(#g2)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div style="font-size:26px;font-weight:900;color:#f0e8d8;margin-bottom:6px">CS2 Manager</div>
+      <div style="background:rgba(248,81,73,.10);border:1px solid rgba(248,81,73,.30);border-radius:14px;padding:16px;margin:20px 0">
+        <div style="font-size:26px;margin-bottom:8px">${isDiag?'⚠️':'🔒'}</div>
+        <div style="font-size:15px;font-weight:800;color:#f85149;margin-bottom:6px">
+          ${isDiag?'Ошибка проверки':isExpired?'Подписка истекла':'Подписка не активна'}
         </div>
-        <div style="font-size:13px;color:#8b7a58;line-height:1.6;margin-bottom:24px">
-          Вернись в бот и купи подписку, чтобы начать пользоваться CS2 Manager
-        </div>
-        <button onclick="window.Telegram?.WebApp?.close()" style="width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:12px;padding:14px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.05em">
-          Вернуться в бот
-        </button>
+        <div style="font-size:12px;color:#8b7a58;line-height:1.6;white-space:pre-wrap">${
+          isDiag ? reason : isExpired
+            ? 'Твоя подписка закончилась. Вернись в бот и продли её.'
+            : 'Для доступа нужна активная подписка.'
+        }</div>
       </div>
+      <button onclick="window.Telegram?.WebApp?.close()" style="width:100%;background:linear-gradient(135deg,#f0a000,#58a6ff);border:none;border-radius:12px;padding:14px;color:#000;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit">
+        ${isDiag?'Закрыть':'Вернуться в бот'}
+      </button>
+      ${reason==='network'?'<div style="margin-top:12px"><button onclick="location.reload()" style="background:none;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 16px;color:rgba(255,255,255,.5);font-size:12px;cursor:pointer;font-family:inherit">Попробовать снова</button></div>':''}
     </div>`;
+  document.body.appendChild(overlay);
 }
 
 function showLoadingScreen(){
@@ -1993,18 +2078,36 @@ function boot(){
       if(tgId && FREE_ACCESS_IDS.includes(Number(tgId))){
         initApp(); return;
       }
-      // Ключ не настроен — не блокируем
-      if(SB_KEY === 'ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ' || !SB_KEY){
-        console.warn('SB_KEY не настроен'); initApp(); return;
+      // Ключ не настроен → блокировать (владелец уже прошёл выше)
+      if(!SB_KEY || SB_KEY==='ВСТАВЬ_СВОЙ_КЛЮЧ_ЗДЕСЬ'){
+        showNoSubScreen('SB_KEY не вставлен — вставь anon key из Supabase → Settings → API.');
+        return;
       }
-      // Нет ID — пускаем
-      if(!tgId){ console.warn('Нет tgId'); initApp(); return; }
+      // Нет ID → блокировать
+      if(!tgId){
+        showNoSubScreen('Не удалось определить Telegram ID. Открой приложение через бота.');
+        return;
+      }
 
       showLoadingScreen();
-      checkSubscription(tgId).then(ok=>{
-        if(ok) initApp(); else showNoSubScreen();
-      }).catch(err=>{
-        console.error('Проверка не удалась:', err); initApp();
+      checkSubscription(tgId).then(function(res){
+        if(res.ok){ initApp(); return; }
+        if(res.retry){
+          // Сеть: повтор через 2 сек
+          setLoadStatus('Повторная попытка...');
+          setTimeout(function(){
+            checkSubscription(tgId).then(function(r2){
+              if(r2.ok) initApp();
+              else { hideLoadingScreen(); showNoSubScreen(r2.err==='network'?'Нет соединения. Проверь интернет и попробуй снова.':r2.err); }
+            }).catch(function(){ hideLoadingScreen(); showNoSubScreen('Ошибка соединения.'); });
+          }, 2000);
+        } else {
+          hideLoadingScreen();
+          showNoSubScreen(res.err);
+        }
+      }).catch(function(err){
+        hideLoadingScreen();
+        showNoSubScreen(String(err?.message||'Неизвестная ошибка'));
       });
       return;
     }
