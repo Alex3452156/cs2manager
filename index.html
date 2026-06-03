@@ -808,7 +808,12 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;hei
   <div class="mhdr"><span>Учёт для канала</span><button class="mcls" onclick="document.getElementById('channelSelOv').classList.remove('open')"><svg class="ti" width="16" height="16"><use href="#i-x"/></svg></button></div>
   <p style="font-size:13px;color:var(--dim);margin-bottom:14px">Выбери период для отчёта:</p>
   <div style="display:grid;gap:9px;margin-bottom:4px">
-    <button class="btn accent" onclick="buildChannelReport('all')">📊 За всё время</button>
+    <button class="btn accent" onclick="buildChannelReport('all')" style="display:flex;align-items:center;justify-content:center;gap:8px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="4" height="18" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="18" y="13" width="4" height="8" rx="1"/>
+      </svg>
+      За всё время
+    </button>
   </div>
   <p style="font-size:12px;color:var(--dim);margin:12px 0 8px">Или выбери конкретную неделю:</p>
   <div id="channelWeekList"></div>
@@ -1401,6 +1406,7 @@ function buildChannelReport(mode, weekId, weekNum){
     '👤 Количество праймов: '+d.accsCount,
     (isAll?'💰 Заработано за всё время: ':'💰 Заработано за неделю: ')+earnStr,
     '💸 Потрачено на праймы: '+invStr,
+    '📈 Окупаемость: '+d.prog.toFixed(1)+'%',
     '',sep,'',
     '📩 Связаться со мной: '+CHANNEL_CONTACT
   ].join(NL);
@@ -1409,7 +1415,7 @@ function buildChannelReport(mode, weekId, weekNum){
 
   // ── Canvas карточка ──
   const cv=document.getElementById('channelCanvas');
-  const W=460, H=380, R=0;
+  const W=460, H=430, R=0;
   cv.width=W*2; cv.height=H*2; // retina
   cv.style.width=W+'px'; cv.style.height=H+'px';
   const ctx=cv.getContext('2d');
@@ -1449,25 +1455,50 @@ function buildChannelReport(mode, weekId, weekNum){
   dg.addColorStop(0,'transparent'); dg.addColorStop(.5,c1+'55'); dg.addColorStop(1,'transparent');
   ctx.fillStyle=dg; ctx.fillRect(28,86,W-56,1);
 
-  // Stats
+  // Stats (чуть плотнее чтобы влез progress bar)
   function stat(label, value, y, col){
-    ctx.fillStyle=dimC; ctx.font='bold 11px Arial,sans-serif'; ctx.textBaseline='top';
+    ctx.fillStyle=dimC; ctx.font='bold 10px Arial,sans-serif'; ctx.textBaseline='top';
     ctx.fillText(label.toUpperCase(), 28, y);
-    ctx.fillStyle=col||textC; ctx.font='900 28px Arial,sans-serif';
-    ctx.fillText(value, 28, y+16);
+    ctx.fillStyle=col||textC; ctx.font='900 26px Arial,sans-serif';
+    ctx.fillText(value, 28, y+14);
   }
-  stat('Количество праймов', d.accsCount+' акк.', 98, c1);
-  stat(isAll?'Заработано за всё время':'Заработано за неделю', earnStr, 162, c2||c1);
-  stat('Потрачено на праймы', invStr, 228, textC);
+  stat('Количество праймов', d.accsCount+' акк.', 96, c1);
+  stat(isAll?'Заработано за всё время':'Заработано за неделю', earnStr, 152, c2||c1);
+  stat('Потрачено на праймы', invStr, 208, textC);
+
+  // ── Прогресс окупаемости ──
+  const progY=265;
+  ctx.fillStyle=dimC; ctx.font='bold 10px Arial,sans-serif'; ctx.textBaseline='top'; ctx.textAlign='left';
+  ctx.fillText('ОКУПАЕМОСТЬ', 28, progY);
+  // Процент справа
+  const progPct=d.prog.toFixed(1)+'%';
+  const pg3=ctx.createLinearGradient(W-120,0,W-28,0);
+  pg3.addColorStop(0,c1); pg3.addColorStop(1,c2||c1);
+  ctx.fillStyle=pg3; ctx.font='900 20px Arial,sans-serif'; ctx.textAlign='right';
+  ctx.fillText(progPct, W-28, progY-2);
+  ctx.textAlign='left';
+  // Bar track
+  const barY=progY+18, barH=10, barW=W-56;
+  ctx.fillStyle='rgba(255,255,255,.10)';
+  ctx.beginPath(); ctx.roundRect(28,barY,barW,barH,5); ctx.fill();
+  // Bar fill
+  const fw=Math.max(0,Math.min(1,d.prog/100))*barW;
+  if(fw>4){
+    const pg4=ctx.createLinearGradient(28,0,28+fw,0);
+    pg4.addColorStop(0,c1); pg4.addColorStop(1,c2||c1);
+    ctx.fillStyle=pg4;
+    ctx.beginPath(); ctx.roundRect(28,barY,fw,barH,5); ctx.fill();
+  }
 
   // Divider
-  ctx.fillStyle=dg; ctx.fillRect(28,296,W-56,1);
+  const div2Y=progY+44;
+  ctx.fillStyle=dg; ctx.fillRect(28,div2Y,W-56,1);
 
   // Contact
-  ctx.fillStyle=dimC; ctx.font='bold 11px Arial,sans-serif';
-  ctx.fillText('СВЯЗАТЬСЯ СО МНОЙ', 28, 310);
-  ctx.fillStyle=c1; ctx.font='bold 18px Arial,sans-serif';
-  ctx.fillText(CHANNEL_CONTACT, 28, 328);
+  ctx.fillStyle=dimC; ctx.font='bold 10px Arial,sans-serif'; ctx.textBaseline='top';
+  ctx.fillText('СВЯЗАТЬСЯ СО МНОЙ', 28, div2Y+12);
+  ctx.fillStyle=c1; ctx.font='bold 17px Arial,sans-serif';
+  ctx.fillText(CHANNEL_CONTACT, 28, div2Y+28);
 
   // Bottom rainbow strip
   const rb=ctx.createLinearGradient(0,0,W,0);
